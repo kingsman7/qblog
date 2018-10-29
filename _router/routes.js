@@ -13,7 +13,7 @@ let layouts = {
 
 let layout = {} //Object with components for layouts
 for (var lyt in layouts){//Define whether to load layout from project or module
-  try{layout[lyt] = require('src/@imagina/qblog/_layouts/'+layouts[lyt])}
+  try{layout[lyt] = require('src/layouts/@imagina/qblog/_layouts/'+layouts[lyt])}
   catch {layout[lyt] = require('@imagina/qblog/_layouts/'+layouts[lyt])}
 }
 

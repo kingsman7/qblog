@@ -7,7 +7,8 @@
 
         <div class="col-12">
           <div class="imgPost"
-               :style="'background-image: url('+encodeURI(dataPost.mainimage)+')'"></div>
+               :style="'background-image: url('+encodeURI(dataPost.mainimage)+')'">
+          </div>
 
           <hr>
 
@@ -18,7 +19,7 @@
 
     <!--= POST =-->
     <post-component v-if="(!dataPost.children || !dataPost.children.length) && !this.$route.params.slugPost"
-                    :category="dataPost">
+                    :category="dataPost" :posts="dataPost.posts">
     </post-component>
   </div>
 </template>

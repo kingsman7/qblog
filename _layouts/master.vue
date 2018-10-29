@@ -2,21 +2,21 @@
   <div id="masterIblog" class="relative-position">
     <!--= BANNER =-->
     <banner-component :dataBanner="dataIblog"
-                      v-if="componentShow && componentShow != '404'">
+                      v-if="component.banner">
     </banner-component>
 
     <!--INDEX-->
     <index-component :categories="dataIblog"
-                     v-if="componentShow == 'index'">
+                     v-if="component.index">
     </index-component>
 
     <!--SHOW-->
     <show-component :dataPost="dataIblog"
-                    v-if="componentShow == 'show'">
+                    v-if="component.show">
     </show-component>
 
     <!--404-->
-    <not-found v-if="componentShow == '404'"></not-found>
+    <not-found v-if="component.notFound"></not-found>
 
     <!--Inner Loading-->
     <q-inner-loading :visible="innerLoading">
@@ -37,12 +37,37 @@
   import postsServices from '@imagina/qblog/_services/posts'
 
   export default {
-    meta () {
+    preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
+      return store.dispatch('blog/BLOG_SHOW', currentRoute)
+    },
+    meta() {
       return {
-        title: this.metaTitle
+        title: this.metaData.siteName,
+        meta: {
+          description: {name: 'description', content: this.metaData.summary},
+          //Schema.org para Google+
+          itemprop: {itemprop: "name", content: this.metaData.title},
+          itemprop1: {itemprop: "description", content: this.metaData.summary},
+          itemprop2: {itemprop: "image", content: this.metaData.image},
+          //Open Graph para Facebook
+          property: {property: "og:title", content: this.metaData.title},
+          property1: {property: "og:type", content: "article"},
+          property2: {property: "og:image", itemprop: "image", content: this.metaData.image},
+          property3: {property: "og:image:secure_url", itemprop: "image", content: this.metaData.image},
+          property4: {property: "og:url", content: this.metaData.url},
+          property5: {property: "og:description", content: this.metaData.summary},
+          property6: {property: "og:site_name", content: this.metaData.siteName},
+          property7: {property: "og:locale", content: "es_ES"},
+          //Twitter Card
+          name: {name: "twitter:card", content: "summary_large_image"},
+          name1: {name: "twitter:site", content: this.metaData.siteName},
+          name2: {name: "twitter:title", content: this.metaData.title},
+          name3: {name: "twitter:description", content: this.metaData.summary},
+          name4: {name: "twitter:creator", content: ""},
+          name5: {name: "twitter:image:,src", content: this.metaData.image},
+        },
       }
     },
-    props: {},
     components: {
       bannerComponent,
       indexComponent,
@@ -51,80 +76,67 @@
     },
     watch: {
       $route(to, from) {
-        this.getData()
-      }
-    },
-    mounted() {
-      this.$nextTick(function () {
-        this.getData()
-      })
+        this.innerLoading = true
+        this.$store.dispatch('blog/BLOG_SHOW', this.$route).then(response => {
+          this.dataIblog = this.$store.state.blog.dataIblog
+          this.innerLoading = false
+        })
+      },
     },
     data() {
       return {
-        metaTitle:env('TITLE'),
-        dataIblog: false,
-        innerLoading: true,
-        componentShow: false
+        dataIblog: this.$store.state.blog.dataIblog,
+        innerLoading: false,
       }
     },
-    methods: {
+    mounted() {
+      this.$nextTick(function () {})
+    },
+    computed: {
       /**
-       * Get Data
+       * Order the meta data
        */
-      getData() {
-        //Get parameters from URL
-        let slugCategory = this.$route.params.slugCategory
-        let slugPost = this.$route.params.slugPost
+      metaData() {
+        let data = this.$store.state.blog.dataIblog
 
-        this.innerLoading = true
-
-        /* Request Data Post according parameter in URL*/
-        if (slugPost) {
-          let include = 'categories'
-          this.metaTitle = slugPost.split('-').join(' ')+' | '+env('TITLE')
-
-          postsServices.show(slugPost, include).then((response) => {
-            this.dataIblog = response.data
-            this.loadComponent()
-          })
-        } else {/* Request Data Category according parameter in URL*/
-          let include = 'children,parent'
-          this.metaTitle = slugCategory.split('-').join(' ')+' | '+env('TITLE')
-
-          categoriesServices.show(slugCategory, include).then((response) => {
-            this.dataIblog = response.data
-            this.loadComponent()
-          })
+        return {
+          siteName: (data && data.title) ? data.title + ' | ' + env('TITLE') : 'not found',
+          title: (data && data.title) ? data.title : 'not found',
+          summary: (data && data.summary) ? data.summary : 'not found',
+          image: (data && data.mainimage) ? data.mainimage : 'not found',
+          url: data ? env('URL')+this.$route.path : 'not found'
         }
       },
-
       /**
        * Select Component to show according to data
        */
-      loadComponent(){
-        let data = this.dataIblog
-
-        // Condition for select component Index
-        if(data.children && data.children.length){
-          this.componentShow = 'index'
+      component() {
+        let data = this.$store.state.blog.dataIblog
+        let show = {
+          notFound: false,
+          index: false,
+          show: false,
+          banner: false
         }
 
-        // Condition for select component Show
-        if((data.children && !data.children.length) || !data.children){
-          this.componentShow = 'show'
+        if(data){
+          show.banner = true
+          // Condition for select component Index
+          if (data.children && data.children.length) {
+            show.index = true
+          }
+
+          // Condition for select component Show
+          if ((data.children && !data.children.length) || !data.children) {
+            show.show = true
+          }
+        }else{
+          show.notFound = true
         }
 
-        // Hidden all if data is false
-        if(!data){
-          this.componentShow = '404'
-        }
-
-        //Hidden inner loading
-        this.innerLoading = false
+        return show
       }
-
-    }
-
+    },
   }
 </script>
 

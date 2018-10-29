@@ -13,13 +13,14 @@
                     navigationPrevLabel="<i class='fas fa-angle-left'></i>">
             <!--POSTS-->
             <slide v-for="(post, index) in posts" :key="index">
-              <router-link :to="'/'+post.category.slug+'/'+post.slug" class="text-secondary">
+              <router-link :to="'/'+category.parent.slug+'/'+post.slug" class="text-secondary">
                 <div class="img"
                      :style="'background-image: url('+encodeURI(post.mainimage)+')'">
                 </div>
                 <q-btn :label="post.title"
                        icon="fas fa-check-circle"
-                       flat color="secondary"></q-btn>
+                       flat color="secondary">
+                </q-btn>
               </router-link>
             </slide>
           </carousel>
@@ -35,22 +36,23 @@
   export default {
     props: {
       category: {default: false},
+      posts: {default: false}
     },
     components: {},
     watch: {
       category(data) {
-        this.getPosts()
+        if(!this.posts && this.category)
+          this.getPosts()
       }
     },
     mounted() {
       this.$nextTick(function () {
-        this.getPosts()
+        if(!this.posts && this.category)
+          this.getPosts()
       })
     },
     data() {
-      return {
-        posts: []
-      }
+      return {}
     },
     methods: {
       getPosts(){
