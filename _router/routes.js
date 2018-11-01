@@ -13,12 +13,24 @@ let layouts = {
 
 let layout = {} //Object with components for layouts
 for (var lyt in layouts){//Define whether to load layout from project or module
+  layout[lyt] = require('@imagina/qblog/_layouts/'+layouts[lyt])
+}
+/*
+let layout = {} //Object with components for layouts
+for (var lyt in layouts){//Define whether to load layout from project or module
   try{layout[lyt] = require('src/layouts/@imagina/qblog/_layouts/'+layouts[lyt])}
   catch {layout[lyt] = require('@imagina/qblog/_layouts/'+layouts[lyt])}
 }
-
+*/
 
 /*=============== Routes ===========================*/
+/*BLOG*/
+Route.view('/blog', master)
+  .children(() => {
+    Route.view('/', require('@imagina/qblog/_layouts/index-blog').default)
+    Route.view('/:slugPost', require('@imagina/qblog/_layouts/show-blog').default)
+  })
+
 /*IBLOG*/
 Route.view('/:slugCategory', master)
   .children(() => {

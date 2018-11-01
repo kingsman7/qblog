@@ -1,28 +1,50 @@
 <template>
-  <div id="masterIblog">
+  <div id="indexBlog" class="relative-position">
     <!--= BANNER =-->
-    <banner-component :dataBanner="dataIblog"
-                      v-if="component.banner">
+    <banner-component :dataBanner="{title: 'blog'}">
     </banner-component>
 
-    <div class="relative-position">
-      <!--INDEX-->
-      <index-component :categories="dataIblog"
-                       v-if="component.index">
-      </index-component>
+    <!-- Contend -->
+    <div class="q-container">
+      <div class="contentDescription gutter-md row q-py-lg"
+           v-if="posts && posts.length">
+        <div class="col-12 col-lg-4" :key="key"
+             v-for="(post,key) in posts">
+          <q-card inline style="width: 100%">
+            <q-card-media>
+              <router-link :to="'/blog/'+post.slug">
+                <div class="img" :style="'background-image: url('+post.mainimage+')'"></div>
+              </router-link>
+            </q-card-media>
+            <q-card-title>
+              <router-link :to="'/blog/'+post.slug">
+                <h1 class="text-primary q-headline">
+                  {{post.title}}
+                </h1>
+              </router-link>
+              <!--Tag Date-->
+              <span class="bg-primary text-center text-uppercase text-white float-left p-2 mb-3 date">
+                <h4>{{post.created_date.day}}</h4>
+                {{post.created_date.mounth}}
+              </span>
+            </q-card-title>
+            <q-card-main>
+              <p class="text-faded q-mb-none">
+                Por {{post.addedBy}}
+              </p>
+            </q-card-main>
+            <q-card-separator/>
+            <q-card-actions>
+              <p class="q-px-md q-py-sm">
+                {{post.summary}}
+              </p>
+            </q-card-actions>
+          </q-card>
+        </div>
+      </div>
 
-      <!--SHOW-->
-      <show-component :dataPost="dataIblog"
-                      v-if="component.show">
-      </show-component>
-
-      <!--404-->
-      <not-found v-if="component.notFound"></not-found>
-
-      <!--Inner Loading-->
-      <q-inner-loading :visible="innerLoading">
-        <q-spinner-ball size="50px" color="primary"></q-spinner-ball>
-      </q-inner-loading>
+      <!--Not results-->
+      <not-results v-if="!posts.length"></not-results>
     </div>
   </div>
 </template>
@@ -30,17 +52,11 @@
 <script>
   /*Component*/
   import bannerComponent from '@imagina/qblog/_components/widgets/widget-banner'
-  import indexComponent from '@imagina/qblog/_components/index'
-  import showComponent from '@imagina/qblog/_components/show'
-  import notFound from 'src/components/404'
-
-  /*Services*/
-  import categoriesServices from '@imagina/qblog/_services/categories'
-  import postsServices from '@imagina/qblog/_services/posts'
+  import notResults from 'src/components/notResults'
 
   export default {
     preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
-      return store.dispatch('blog/BLOG_SHOW', currentRoute)
+      return store.dispatch('blog/CATEGORY_SHOW', {slug: 'blog', include : 'posts'})
     },
     meta() {
       return {
@@ -72,22 +88,12 @@
     },
     components: {
       bannerComponent,
-      indexComponent,
-      showComponent,
-      notFound
+      notResults
     },
-    watch: {
-      $route(to, from) {
-        this.innerLoading = true
-        this.$store.dispatch('blog/BLOG_SHOW', this.$route).then(response => {
-          this.dataIblog = this.$store.state.blog.dataIblog
-          this.innerLoading = false
-        })
-      },
-    },
+    watch: {},
     data() {
       return {
-        dataIblog: this.$store.state.blog.dataIblog,
+        posts: this.$store.state.blog.category.posts,
         innerLoading: false,
       }
     },
@@ -99,49 +105,49 @@
        * Order the meta data
        */
       metaData() {
-        let data = this.$store.state.blog.dataIblog
+        let data = this.$store.state.blog.category
 
         return {
           siteName: (data && data.title) ? data.title + ' | ' + env('TITLE') : 'not found',
           title: (data && data.title) ? data.title : 'not found',
           summary: (data && data.summary) ? data.summary : 'not found',
           image: (data && data.mainimage) ? data.mainimage : 'not found',
-          url: data ? env('URL')+this.$route.path : 'not found'
+          url: data ? env('URL') + this.$route.path : 'not found'
         }
       },
-      /**
-       * Select Component to show according to data
-       */
-      component() {
-        let data = this.$store.state.blog.dataIblog
-        let show = {
-          notFound: false,
-          index: false,
-          show: false,
-          banner: false
-        }
-
-        if(data){
-          show.banner = true
-          // Condition for select component Index
-          if (data.children && data.children.length) {
-            show.index = true
-          }
-
-          // Condition for select component Show
-          if ((data.children && !data.children.length) || !data.children) {
-            show.show = true
-          }
-        }else{
-          show.notFound = true
-        }
-
-        return show
-      }
     },
   }
 </script>
 
 <style lang="stylus">
   @import "~variables";
+  #indexBlog
+    .q-card
+      .q-card-media
+        .img
+          background-size cover
+          background-position center
+          background-repeat no-repeat
+          height 277px
+          width 100%
+      .q-card-title
+        position relative
+        h1
+          line-height 1
+          height 50px
+          overflow hidden
+          padding-left 65px
+        span
+          padding 5px
+          position absolute
+          top -16px
+          left 0
+          line-height 1.5
+          h4
+            margin 0
+      .q-card-actions
+        p
+          line-height 1.4
+          height 75px
+          overflow hidden
 </style>

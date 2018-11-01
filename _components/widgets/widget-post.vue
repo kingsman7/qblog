@@ -13,14 +13,16 @@
                     navigationPrevLabel="<i class='fas fa-angle-left'></i>">
             <!--POSTS-->
             <slide v-for="(post, index) in posts" :key="index">
-              <router-link :to="'/'+category.parent.slug+'/'+post.slug" class="text-secondary">
+              <router-link :to="'/'+categorySlug+'/'+post.slug" class="text-secondary">
                 <div class="img"
                      :style="'background-image: url('+encodeURI(post.mainimage)+')'">
                 </div>
-                <q-btn :label="post.title"
-                       icon="fas fa-check-circle"
-                       flat color="secondary">
-                </q-btn>
+                <div class="title">
+                  <q-icon name="fas fa-check-circle"></q-icon>
+                  <q-btn :label="post.title"
+                         flat color="secondary">
+                  </q-btn>
+                </div>
               </router-link>
             </slide>
           </carousel>
@@ -53,6 +55,11 @@
     },
     data() {
       return {}
+    },
+    computed:{
+      categorySlug(){
+        return this.category.parent ? this.category.parent.slug : this.category.slug
+      }
     },
     methods: {
       getPosts(){
@@ -87,6 +94,21 @@
         margin-bottom 40px
       .VueCarousel-slide
         padding 0 15px
+        a
+          text-decoration none
+        .title
+          position relative
+          padding-top 10px
+          text-align left
+          .q-icon
+            position absolute
+            left 10px
+            top 20px
+          .q-btn
+            text-align left
+            padding-left 40px
+            .q-focus-helper
+              display none
         @media screen and (max-width: $breakpoint-md)
           padding 0 60px !important
       .VueCarousel-navigation

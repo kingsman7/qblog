@@ -9,19 +9,21 @@
              v-for="(post, key) in posts" :key="key">
           <!--IMG-->
           <div class="content">
-          <div class="img text-center row items-center"
-               :style="'background-image: url('+post.mainimage+')'">
-            <div class="col-12">
-              <img :src="post.options['media-icon']"
-                   v-if="post.options['media-icon']"
-                   class="hidden"
-                   width="74px"
-                   alt="reparación">
-            </div>
-          </div>
-            <div class="title">
-              {{post.title}}
-            </div>
+            <router-link :to="'/'+category.slug+'/'+post.slug"><a>
+              <div class="img text-center row items-center"
+                   :style="'background-image: url('+post.mainimage+')'">
+                <div class="col-12">
+                  <img :src="post.options['media-icon']"
+                       v-if="post.options['media-icon']"
+                       class="hidden"
+                       width="74px"
+                       alt="reparación">
+                </div>
+              </div>
+              <div class="title">
+                {{post.title}}
+              </div>
+            </a></router-link>
           </div>
 
           <!--SLUG-->
@@ -42,11 +44,11 @@
 
   export default {
     props: {
-      categoryId : {default:2}
+      categorySlug: {default: 'servicios'}
     },
     components: {},
     watch: {
-      categoryId(data){
+      categorySlug(data) {
         this.getPosts()
       }
     },
@@ -57,13 +59,13 @@
     },
     data() {
       return {
-        category : false,
-        posts : []
+        category: false,
+        posts: []
       }
     },
     methods: {
-      getPosts(){
-        categoriesService.show(this.categoryId,'posts').then((response) => {
+      getPosts() {
+        categoriesService.show(this.categorySlug, 'posts').then((response) => {
           this.category = response.data
           this.posts = response.data.posts
         })

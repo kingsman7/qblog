@@ -101,7 +101,6 @@ export const CATEGORY_SHOW = ({commit, dispatch}, prmt) => {
 export const POST_INDEX = ({commit, dispatch}, parameters) => {
   return new Promise((resolve, reject) => {
     postsServices.index(parameters).then((response) => {
-      console.warn('>>>>>Post: ',response,parameters)
       response ? commit('BLOG_SUCCESS', {posts : {value: response.data}}) : false
       resolve(response)
     }).catch((error) => {
@@ -121,7 +120,6 @@ export const POST_INDEX = ({commit, dispatch}, parameters) => {
 export const POST_SHOW = ({commit, dispatch}, prmt) => {
   return new Promise((resolve, reject) => {
     prmt.include ? true : prmt.include = ''//Includes
-
     postsServices.show(prmt.slug, prmt.include).then((response) => {
       response ? commit('BLOG_SUCCESS', {post : {value: response.data}}) : false
       resolve(response)

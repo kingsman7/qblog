@@ -7,9 +7,9 @@
           <!--BreadCrum-->
           <breadcrum-component :route="dataBanner"></breadcrum-component>
           <!--Title-->
-          <h5 class="q-ma-none q-mt-lg text-secondary text-center uppercase">
+          <h1 class="q-headline q-ma-none q-mt-lg text-secondary text-center uppercase">
             {{dataBanner.title}}
-          </h5>
+          </h1>
         </div>
       </div>
     </div>
@@ -45,13 +45,13 @@
     background-size cover
     background-position center
     padding-top 60px
-    h5
+    h1
       font-weight bold !important
     &.desktop
       height 245px
     &.mobile
       padding 10px 0 15px 0
-      h5
+      h1
         margin-top 10px !important
 
 </style>
