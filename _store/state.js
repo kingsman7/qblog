@@ -3,5 +3,6 @@ export default {
   category: null,
   categories: null,
   post: null,
-  posts: null
+  posts: null,
+  widgets: {}
 }

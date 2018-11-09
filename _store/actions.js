@@ -26,7 +26,7 @@ export const BLOG_SHOW = ({commit, dispatch}, route) => {
       let include = 'categories'//Relationships
 
       dispatch('POST_SHOW',{slug : slugPost, include: include}).then(response => {
-        commit('BLOG_SUCCESS', {dataIblog : {value: response.data}})
+        commit('BLOG_SUCCESS', {dataIblog : {value: response}})
         resolve(true)
       }).catch(error => {
         reject(error)
@@ -35,7 +35,7 @@ export const BLOG_SHOW = ({commit, dispatch}, route) => {
       let include = 'children,parent,posts'//Relationships
 
       dispatch('CATEGORY_SHOW',{slug : slugCategory, include : include}).then(response => {
-        commit('BLOG_SUCCESS', {dataIblog : {value : response.data}})
+        commit('BLOG_SUCCESS', {dataIblog : {value : response}})
         resolve(true)
       }).catch(error => {
         reject(error)
@@ -54,16 +54,19 @@ export const BLOG_SHOW = ({commit, dispatch}, route) => {
  * @returns {Promise<any>}
  * @constructor
  */
-export const CATEGORY_INDEX = ({commit, dispatch}, parameters) => {
+export const CATEGORY_INDEX = ({commit, dispatch}, prmt) => {
   return new Promise((resolve, reject) => {
     //Request categories by slug
-    categoriesServices.index(parameters).then((response) => {
-      response ? commit('BLOG_SUCCESS', {categories : {value: response.data}}) : false
-      resolve(response)
+    categoriesServices.index(prmt).then((response) => {
+      //Validate if make commit
+      if(response && !prmt.noCommit){
+        commit('BLOG_SUCCESS', {categories : {value: response.data}})
+      }
+
+      resolve(response.data)
     }).catch((error) => {
       reject(error)
     })
-
   })
 }
 
@@ -80,8 +83,12 @@ export const CATEGORY_SHOW = ({commit, dispatch}, prmt) => {
     prmt.include ? true : prmt.include = ''//Includes
 
     categoriesServices.show(prmt.slug, prmt.include).then((response) => {
-      response ? commit('BLOG_SUCCESS', {category : {value: response.data}}) : false
-      resolve(response)
+      //Validate if make commit
+      if(response && !prmt.withoutCommit){
+        commit('BLOG_SUCCESS', {category : {value: response.data}})
+      }
+
+      resolve(response.data)
     }).catch((error) => {
       reject(error)
     })
@@ -98,11 +105,15 @@ export const CATEGORY_SHOW = ({commit, dispatch}, prmt) => {
  * @returns {Promise<any>}
  * @constructor
  */
-export const POST_INDEX = ({commit, dispatch}, parameters) => {
+export const POST_INDEX = ({commit, dispatch}, prmt) => {
   return new Promise((resolve, reject) => {
-    postsServices.index(parameters).then((response) => {
-      response ? commit('BLOG_SUCCESS', {posts : {value: response.data}}) : false
-      resolve(response)
+    postsServices.index(prmt).then((response) => {
+      //Validate if make commit
+      if(response && !prmt.withoutCommit){
+        commit('BLOG_SUCCESS', {posts : {value: response.data}})
+      }
+
+      resolve(response.data)
     }).catch((error) => {
       reject(error)
     })
@@ -121,10 +132,30 @@ export const POST_SHOW = ({commit, dispatch}, prmt) => {
   return new Promise((resolve, reject) => {
     prmt.include ? true : prmt.include = ''//Includes
     postsServices.show(prmt.slug, prmt.include).then((response) => {
-      response ? commit('BLOG_SUCCESS', {post : {value: response.data}}) : false
-      resolve(response)
+      //Validate if make commit
+      if(response && !prmt.withoutCommit){
+        commit('BLOG_SUCCESS', {post : {value: response.data}})
+      }
+
+      resolve(response.data)
     }).catch((error) => {
       reject(error)
+    })
+  })
+}
+
+
+/*======================== WIDGETS ===================================*/
+export const WIDGETS = ({commit, dispatch}, data) => {
+  return new Promise((resolve,reject) => {
+    //dispath actions without make commit
+    data.params.noCommit = true
+
+    //Request Data
+    dispatch(data.action,data.params).then(dataWidget => {
+      //Save data in state
+      commit('BLOG_SUCCESS', {widgets : {key : data.key, value: dataWidget}})
+      resolve(dataWidget)
     })
   })
 }

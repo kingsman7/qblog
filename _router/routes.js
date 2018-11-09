@@ -1,41 +1,32 @@
 import Route from 'vue-routisan'
-//import masterIblog from '@imagina/qblog/_layouts/master'
+import configSrc from 'src/config/index'//Import config for views and routes fron src
+import configModule from '@imagina/qblog/_config/views'//Import config for views and routes fron module
 
-/*VIEWS*/
-import master from 'src/layouts/master'
-import blank from 'src/layouts/blank'
-
-/*=============== Layouts ===========================*/
-//name of layouts
-let layouts = {
-  masterIblog : 'master'
+//Get Layout about config location
+const getLayout = (route) => {
+  if (route.location.module) {
+    return require('@imagina/qblog/_layouts/' + route.layout).default
+  } else {
+    return require('src/layouts/' + route.layout).default
+  }
 }
 
-let layout = {} //Object with components for layouts
-for (var lyt in layouts){//Define whether to load layout from project or module
-  layout[lyt] = require('@imagina/qblog/_layouts/'+layouts[lyt])
-}
-/*
-let layout = {} //Object with components for layouts
-for (var lyt in layouts){//Define whether to load layout from project or module
-  try{layout[lyt] = require('src/layouts/@imagina/qblog/_layouts/'+layouts[lyt])}
-  catch {layout[lyt] = require('@imagina/qblog/_layouts/'+layouts[lyt])}
-}
-*/
+//Define config
+const configBlog = configSrc('views').qblog ? configSrc('views').qblog : configModule
 
-/*=============== Routes ===========================*/
-/*BLOG*/
-Route.view('/blog', master)
-  .children(() => {
-    Route.view('/', require('@imagina/qblog/_layouts/index-blog').default)
-    Route.view('/:slugPost', require('@imagina/qblog/_layouts/show-blog').default)
-  })
+//Create route about config/views/qblog
+for (var item in configBlog) {
+  let route = configBlog[item]
+  let children = route.children
 
-/*IBLOG*/
-Route.view('/:slugCategory', master)
-  .children(() => {
-    Route.view('/', layout.masterIblog.default)
-    Route.view('/:slugPost', layout.masterIblog.default)
-  })
+  //Create routes master
+  Route.view(route.route, getLayout(route))
+    .children(() => {
+      //Create routes children
+      children.forEach(route => {
+        Route.view(route.route, getLayout(route))
+      })
+    })
+}
 
 export default Route.all()

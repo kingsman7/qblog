@@ -1,15 +1,15 @@
 <template>
-  <div id="serviciosComponent"
+  <div id="serviciosComponent" v-if="getData.posts.length"
        :class="'bg-widget-services ' + (this.$q.platform.is.desktop ? 'desktop' : 'mobile')">
     <div class="overlay"></div>
     <div class="q-container full-height">
       <div class="row items-center full-height gutter-x-lg">
 
         <div class="block col-12 col-md-6 col-lg-4"
-             v-for="(post, key) in posts" :key="key">
+             v-for="(post, key) in getData.posts" :key="key">
           <!--IMG-->
           <div class="content">
-            <router-link :to="'/'+category.slug+'/'+post.slug"><a>
+            <router-link :to="'/'+getData.category.slug+'/'+post.slug" class="link">
               <div class="img text-center row items-center"
                    :style="'background-image: url('+post.mainimage+')'">
                 <div class="col-12">
@@ -23,52 +23,42 @@
               <div class="title">
                 {{post.title}}
               </div>
-            </a></router-link>
+            </router-link>
           </div>
 
           <!--SLUG-->
           <h6 v-html="post.summary"></h6>
 
           <!-- BUTTON-->
-          <q-btn label="Ver más" :to="'/'+category.slug+'/'+post.slug"
+          <q-btn label="Ver más" :to="'/'+getData.category.slug+'/'+post.slug"
                  color="secondary" rounded
-                 icon-right="fas fa-arrow-right"/>
+                 icon-right="fas fa-arrow-right">
+          </q-btn>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-  /*Services*/
-  import categoriesService from '@imagina/qblog/_services/categories'
-
   export default {
-    props: {
-      categorySlug: {default: 'servicios'}
-    },
-    components: {},
-    watch: {
-      categorySlug(data) {
-        this.getPosts()
-      }
-    },
-    mounted() {
-      this.$nextTick(function () {
-        this.getPosts()
-      })
-    },
     data() {
       return {
         category: false,
         posts: []
       }
     },
-    methods: {
-      getPosts() {
-        categoriesService.show(this.categorySlug, 'posts').then((response) => {
-          this.category = response.data
-          this.posts = response.data.posts
-        })
+    computed: {
+      getData() {
+        let widgets = this.$store.state.blog.widgets
+        let category = false
+        let posts = []
+
+        if(widgets.servicesHome){
+          category = widgets.servicesHome
+          posts = widgets.servicesHome.posts
+        }
+
+        return {category : category, posts: posts}
       }
     }
 
