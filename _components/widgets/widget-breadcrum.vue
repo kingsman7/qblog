@@ -6,12 +6,12 @@
         color="light"
       >
         <!-- Separator -->
-        <q-icon name="fas fa-angle-right" slot="separator" slot-scope="props" />
+        <q-icon name="fas fa-angle-right" slot="separator" slot-scope="props"/>
         <!-- Route Home -->
-        <q-breadcrumbs-el label="Inicio" to="/" icon="home" />
+        <q-breadcrumbs-el label="Inicio" to="/" icon="home"/>
         <!-- Other Routes -->
-        <q-breadcrumbs-el v-for="(r,index) in routes" :key="index"
-                          :label="r.name" :to="'/'+r.to"  />
+        <q-breadcrumbs-el v-for="(r,index) in itemsBreadCrum" :key="index"
+                          :label="r.name" :to="'/'+r.to"/>
       </q-breadcrumbs>
     </div>
   </div>
@@ -19,82 +19,42 @@
 <script>
   export default {
     props: {
-      route: {default: false},
+      items: {default: false},
     },
     components: {},
     watch: {
-      $route(to, from){
-        if(this.route){
-          this.orderRoutes()
-        }else{
-          this.getRouteMatched()
-        }
+      $route(to, from) {
+        this.orderRoutes()
       },
-      route(data){
+      items(data) {
         this.orderRoutes()
       }
     },
     mounted() {
       this.$nextTick(function () {
-        if(this.route){
-          this.orderRoutes()
-        }else{
-          this.getRouteMatched()
-        }
+        this.orderRoutes()
       })
     },
     data() {
       return {
-        routes : []
+        itemsBreadCrum: []
       }
     },
     methods: {
       /*Order routes from route*/
-      orderRoutes(){
-        this.routes = []
+      orderRoutes() {
+        this.itemsBreadCrum = []
+        let items = this.items ? this.items.items : this.$route.path.split('/')
 
-        if(this.route){
-          //Route for category
-          if(this.route.parent != null){
-            this.routes.push({
-              name : this.route.parent.title,
-              to : this.route.parent.slug
-            })
-          //Route for Post
-          }else if(this.route.categories != null){
-            this.routes.push({
-              name : this.route.categories[0].title,
-              to : this.route.categories[0].slug
+        for (var i = 0; i < items.length; i++) {
+          if (items[i] !== '') {
+            this.itemsBreadCrum.push({
+              name: items[i].split('-').join(' '),
+              to: items[i]
             })
           }
-
-          //Current Route
-          this.routes.push({
-            name : this.route.title,
-            to : this.route.slug
-          })
         }
       },
-
-      /*Order routes from vue rooutes*/
-      getRouteMatched(){
-        this.routes = []
-        let routes = this.$route.matched
-
-        if(routes.length >= 3){
-          for(var i = 1; i < routes.length; i++){
-            this.routes.push({
-              name : routes[i].name,
-              to : routes[i].name
-            })
-          }
-        }else{
-          this.routes = [{
-            name : routes[1].name,
-            to: routes[1].name
-          }]
-        }
-      }
     }
 
   }
@@ -102,7 +62,7 @@
 <style lang="stylus">
   @import "~variables";
   #breadcrumComponent
-    @media screen and (max-width : $breakpoint-md)
+    @media screen and (max-width: $breakpoint-md)
       overflow-x scroll
     .content
       text-transform capitalize !important

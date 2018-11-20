@@ -5,7 +5,7 @@
       <div class="row items-center full-height">
         <div class="col-12 text-right">
           <!--BreadCrum-->
-          <breadcrum-component :route="dataBanner"></breadcrum-component>
+          <breadcrum-component :items="dataBanner.breadCrum"></breadcrum-component>
           <!--Title-->
           <h1 class="q-headline q-ma-none q-mt-lg text-secondary text-center uppercase">
             {{dataBanner.title}}

@@ -32,7 +32,7 @@ export const BLOG_SHOW = ({commit, dispatch}, route) => {
         reject(error)
       })
     }else{//Dispatch CATEGORY SHOW if exist parameter slug category
-      let include = 'children,parent,posts'//Relationships
+      let include = 'children,posts'//Relationships
 
       dispatch('CATEGORY_SHOW',{slug : slugCategory, include : include}).then(response => {
         commit('BLOG_SUCCESS', {dataIblog : {value : response}})
@@ -54,12 +54,12 @@ export const BLOG_SHOW = ({commit, dispatch}, route) => {
  * @returns {Promise<any>}
  * @constructor
  */
-export const CATEGORY_INDEX = ({commit, dispatch}, prmt) => {
+export const CATEGORY_INDEX = ({commit, dispatch}, params) => {
   return new Promise((resolve, reject) => {
     //Request categories by slug
-    categoriesServices.index(prmt).then((response) => {
+    categoriesServices.index(params).then((response) => {
       //Validate if make commit
-      if(response && !prmt.noCommit){
+      if(response && !params.noCommit){
         commit('BLOG_SUCCESS', {categories : {value: response.data}})
       }
 
@@ -78,13 +78,13 @@ export const CATEGORY_INDEX = ({commit, dispatch}, prmt) => {
  * @returns {Promise<any>}
  * @constructor
  */
-export const CATEGORY_SHOW = ({commit, dispatch}, prmt) => {
+export const CATEGORY_SHOW = ({commit, dispatch}, params) => {
   return new Promise((resolve, reject) => {
-    prmt.include ? true : prmt.include = ''//Includes
+    params.include ? true : params.include = ''//Includes
 
-    categoriesServices.show(prmt.slug, prmt.include).then((response) => {
+    categoriesServices.show(params.slug, params.include).then((response) => {
       //Validate if make commit
-      if(response && !prmt.withoutCommit){
+      if(response && !params.withoutCommit){
         commit('BLOG_SUCCESS', {category : {value: response.data}})
       }
 
@@ -105,11 +105,11 @@ export const CATEGORY_SHOW = ({commit, dispatch}, prmt) => {
  * @returns {Promise<any>}
  * @constructor
  */
-export const POST_INDEX = ({commit, dispatch}, prmt) => {
+export const POST_INDEX = ({commit, dispatch}, params) => {
   return new Promise((resolve, reject) => {
-    postsServices.index(prmt).then((response) => {
+    postsServices.index(params).then((response) => {
       //Validate if make commit
-      if(response && !prmt.withoutCommit){
+      if(response && !params.withoutCommit){
         commit('BLOG_SUCCESS', {posts : {value: response.data}})
       }
 
@@ -128,12 +128,12 @@ export const POST_INDEX = ({commit, dispatch}, prmt) => {
  * @returns {Promise<any>}
  * @constructor
  */
-export const POST_SHOW = ({commit, dispatch}, prmt) => {
+export const POST_SHOW = ({commit, dispatch}, params) => {
   return new Promise((resolve, reject) => {
-    prmt.include ? true : prmt.include = ''//Includes
-    postsServices.show(prmt.slug, prmt.include).then((response) => {
+    params.include ? true : params.include = ''//Includes
+    postsServices.show(params.slug, params.include).then((response) => {
       //Validate if make commit
-      if(response && !prmt.withoutCommit){
+      if(response && !params.withoutCommit){
         commit('BLOG_SUCCESS', {post : {value: response.data}})
       }
 
