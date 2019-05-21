@@ -1,6 +1,6 @@
 {
-  "_from": "@imagina/qblog@0.0.7",
-  "_id": "@imagina/qblog@0.0.7",
+  "_from": "@imagina/qblog@0.0.8",
+  "_id": "@imagina/qblog@0.0.8",
   "_inBundle": false,
   "_integrity": "sha512-74VCpgyBGCkpXGHYFWsZEQp209sC5QOK5TS3YKxELND+M2v1kHevMWBmVU/BDgL8uj8PiGYd5822oEzNOlQlww==",
   "_location": "/@imagina/qblog",
@@ -8,21 +8,21 @@
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "@imagina/qblog@0.0.7",
+    "raw": "@imagina/qblog@0.0.8",
     "name": "@imagina/qblog",
     "escapedName": "@imagina%2fqblog",
     "scope": "@imagina",
-    "rawSpec": "0.0.7",
+    "rawSpec": "0.0.8",
     "saveSpec": null,
-    "fetchSpec": "0.0.7"
+    "fetchSpec": "0.0.8"
   },
   "_requiredBy": [
     "#USER",
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/@imagina/qblog/-/qblog-0.0.7.tgz",
+  "_resolved": "https://registry.npmjs.org/@imagina/qblog/-/qblog-0.0.8.tgz",
   "_shasum": "7a95d96f02bd92c630290725faa41083b4784b22",
-  "_spec": "@imagina/qblog@0.0.7",
+  "_spec": "@imagina/qblog@0.0.8",
   "_where": "D:\\Imagina\\html\\Applications\\atcolombia_app",
   "author": {
     "name": "http://imaginacolombia.com/"
@@ -54,5 +54,5 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "0.0.7"
+  "version": "0.0.8"
 }
