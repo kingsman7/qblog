@@ -20,9 +20,7 @@
       <not-found v-if="component.notFound"></not-found>
 
       <!--Inner Loading-->
-      <q-inner-loading :visible="innerLoading">
-        <q-spinner-ball size="50px" color="primary"></q-spinner-ball>
-      </q-inner-loading>
+      <inner-loading :visible="innerLoading" />
     </div>
   </div>
 </template>
@@ -33,6 +31,7 @@
   import indexComponent from '@imagina/qblog/_components/index'
   import showComponent from '@imagina/qblog/_components/show'
   import notFound from 'src/components/404'
+  import innerLoading from 'src/components/master/innerLoading'
 
   /*Services*/
   import categoriesServices from '@imagina/qblog/_services/categories'
@@ -74,7 +73,8 @@
       bannerComponent,
       indexComponent,
       showComponent,
-      notFound
+      notFound,
+      innerLoading
     },
     watch: {
       $route(to, from) {

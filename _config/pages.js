@@ -6,7 +6,6 @@ import auth from '@imagina/quser/_router/middlewares/auth'
 import access from '@imagina/quser/_router/middlewares/access'
 
 export default {
-  
   posts: {
     permission: 'iblog.posts.manage',
     activated: true,
@@ -15,8 +14,8 @@ export default {
     layout: require('@imagina/qblog/_layouts/admin/posts/index').default,
     containerLayout: master,
     title: 'Posts',
-    icon: 'fas fa-list-alt',
-    middleware: [auth]
+    icon: 'fas fa-newspaper',
+    middleware: [auth,access]
   },
   
   
@@ -28,8 +27,8 @@ export default {
     layout: require('@imagina/qblog/_layouts/admin/categories/index').default,
     containerLayout: master,
     title: 'Categories',
-    icon: 'fas fa-list-alt',
-    middleware: [auth]
+    icon: 'fas fa-layer-group',
+    middleware: [auth,access]
   },
 
 }
