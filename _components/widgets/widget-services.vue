@@ -49,7 +49,7 @@
     },
     computed: {
       getData() {
-        let widgets = this.$store.state.blog.widgets
+        let widgets = this.$store.state.qblogMaster.widgets
         let category = false
         let posts = []
 

@@ -1,16 +1,32 @@
-##Module Qblog
-Module qblog
-#
+##QBLOG  | 1.0.0
 
-###Routes
-- ###Usage
-  In src/router/index.js
+## Installation
+
+`` npm i @imagina/qblog@1.0.0 ``
+
+##API Routes
+| ENTITY  | ROUTE |
+| ------------- | ------------- |
+| Posts | apiRoutes.qblog.posts |
+| Categories | apiRoutes.qblog.categories |
+
+##Pages
+- ###Front-End
+  | PAGE | NAME |
+  | ------------- | ------------- |
+  | Index | qiblog.index |
+  | Show | qiblog.show |
+- ###Back-End
+  | PAGE | NAME |
+  | ------------- | ------------- |
+  | Posts | qblog.admin.posts |
+  | Categories | qblog.admin.categories |
   
-  ```js
-  ...
-    export default function () {
-      /*Add here in order how do you want routes*/
-      routes = require('./routes').default
-      routes = require('@imagina/qblog/_router/routes').default //Add this line
-  ...
-  ```
+##Components  
+  | NAME | ROUTE |
+  | ------------- | ------------- |
+  | Widget Banner | @imagina/qblog/_components/widgets/widget-banner |
+  | Widget Breadcrum | @imagina/qblog/_components/widgets/widget-breadcrum |
+  | Widget Post | @imagina/qblog/_components/widgets/widget-post |
+  | Widget Post Blog | @imagina/qblog/_components/widgets/widget-post-blog |
+  | Widget Services | @imagina/qblog/_components/widgets/widget-services |

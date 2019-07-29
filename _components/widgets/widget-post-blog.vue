@@ -16,7 +16,7 @@
   </div>
 </template>
 <script>
-  import {alert} from '@imagina/qhelper/_plugins/alert'
+  import alert from '@imagina/qhelper/_plugins/alert'
 
   export default {
     props: {},
@@ -27,7 +27,7 @@
     },
     data() {
       return {
-        posts: this.$store.state.blog.posts
+        posts: this.$store.state.qblogMaster.posts
       }
     },
     methods: {
