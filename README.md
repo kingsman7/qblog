@@ -1,28 +1,33 @@
-##QBLOG  | 1.0.0
+## QBLOG  | 1.0.0
 
 ## Installation
 
 `` npm i @imagina/qblog@1.0.0 ``
 
-##API Routes
+## API Routes
+
 | ENTITY  | ROUTE |
 | ------------- | ------------- |
 | Posts | apiRoutes.qblog.posts |
 | Categories | apiRoutes.qblog.categories |
 
-##Pages
-- ###Front-End
+## Pages
+- ### Front-End
+
   | PAGE | NAME |
   | ------------- | ------------- |
   | Index | qiblog.index |
   | Show | qiblog.show |
-- ###Back-End
+  
+- ### Back-End
+
   | PAGE | NAME |
   | ------------- | ------------- |
   | Posts | qblog.admin.posts |
   | Categories | qblog.admin.categories |
   
-##Components  
+## Components  
+
   | NAME | ROUTE |
   | ------------- | ------------- |
   | Widget Banner | @imagina/qblog/_components/widgets/widget-banner |
