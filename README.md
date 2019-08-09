@@ -1,4 +1,4 @@
-## QBLOG  | 1.0.0
+## QBLOG  | 1.0.1
 
 ## Installation
 
