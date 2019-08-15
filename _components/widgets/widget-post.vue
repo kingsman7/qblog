@@ -1,27 +1,32 @@
 <template>
-  <div id="postComponent" :class="$q.platform.is.desktop ? 'desktop' : 'mobile'">
+  <div id="postComponent" v-if="posts.length" :class="$q.platform.is.desktop ? 'desktop' : 'mobile'">
     <div class="q-container full-height">
       <div class="row full-height items-center">
         <div class="col-12">
+          <!--Category title-->
+          <h4 class="text-left text-grey-9 q-my-md text-weight-light" v-if="posts.length">
+            {{posts[0].category.title}}
+          </h4>
+          <!--Carousel-->
           <carousel autoplay loop
                     v-if="category && posts.length"
-                    :autoplayTimeout="$q.platform.is.desktop ? 4000 : 2000"
-                    :perPage="$q.platform.is.desktop ? 4 : 1"
+                    :autoplayTimeout="4000"
+                    :perPage="$q.platform.is.desktop ? 2 : 1"
                     :paginationEnabled="false"
                     :navigationEnabled="$q.platform.is.desktop ? true : false"
                     navigationNextLabel="<i class='fas fa-angle-right'></i>"
                     navigationPrevLabel="<i class='fas fa-angle-left'></i>">
             <!--POSTS-->
             <slide v-for="(post, index) in posts" :key="index">
-              <router-link :to="'/'+categorySlug+'/'+post.slug" class="text-secondary">
-                <div class="img"
-                     :style="'background-image: url('+encodeURI(post.mainimage)+')'">
-                </div>
-                <div class="title">
-                  <q-icon name="fas fa-check-circle"></q-icon>
-                  <q-btn :label="post.title"
-                         flat color="secondary">
-                  </q-btn>
+              <router-link :to="{name : 'qblog.show', params : {slugPost : post.slug}}" class="text-secondary">
+                <div class="row gutter-sm">
+                  <div class="col-12 col-md-6">
+                    <div class="img" :style="'background-image: url('+post.mainImage.path+')'" />
+                  </div>
+                  <div class="col-12 col-md-6 text-justify text-grey-8">
+                    <div class="q-title">{{post.title}}</div>
+                    <p v-html="post.summary" />
+                  </div>
                 </div>
               </router-link>
             </slide>
@@ -32,43 +37,51 @@
   </div>
 </template>
 <script>
-  /*Services*/
-  import postsService from '@imagina/qblog/_services/posts'
+  import { Carousel, Slide } from 'vue-carousel';
 
   export default {
     props: {
       category: {default: false},
-      posts: {default: false}
+      dataPosts: {default: false}
     },
-    components: {},
+    components: {
+      Carousel,
+      Slide
+    },
     watch: {
       category(data) {
-        if(!this.posts && this.category)
-          this.getPosts()
+        if (!this.posts && this.category) this.getPosts()
+      },
+      dataPosts(){
+        this.posts = this.dataPosts
       }
     },
     mounted() {
       this.$nextTick(function () {
-        if(!this.posts && this.category)
+        if ((!this.posts.length) && this.category)
           this.getPosts()
       })
     },
     data() {
-      return {}
+      return {
+        posts : []
+      }
     },
-    computed:{
-      categorySlug(){
+    computed: {
+      categorySlug() {
         return this.category.parent ? this.category.parent.slug : this.category.slug
       }
     },
     methods: {
-      getPosts(){
+      getPosts() {
         let parameters = {
-          filter : {categoryId : this.category.id},
-          include : 'category,categories'
+          params: {
+            filter: {categoryId: this.category.id},
+            include: 'category,categories'
+          }
         }
 
-        postsService.index(parameters).then((response) => {
+        this.$crud.index('apiRoutes.qblog.posts', parameters).then((response) => {
           this.posts = response.data
         })
       }
@@ -81,6 +94,7 @@
 
   #postComponent
     text-align center
+
     .img
       height 192px
       width 100%
@@ -88,31 +102,37 @@
       background-size cover
       background-repeat: no-repeat;
       border 1px solid $grey-3
+
     .VueCarousel
-      margin-bottom 60px
-      @media screen and (max-width: $breakpoint-md)
-        margin-bottom 40px
+      margin-bottom 17px
       .VueCarousel-slide
         padding 0 15px
+
         a
           text-decoration none
+
         .title
           position relative
           padding-top 10px
           text-align left
+
           .q-icon
             position absolute
             left 10px
             top 20px
+
           .q-btn
             text-align left
             padding-left 40px
+
             .q-focus-helper
               display none
         @media screen and (max-width: $breakpoint-md)
           padding 0 60px !important
+
       .VueCarousel-navigation
         padding 20px auto
+
         .VueCarousel-navigation-button
           font-size 31px
           color $secondary
