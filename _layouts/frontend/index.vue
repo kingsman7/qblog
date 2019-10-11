@@ -52,7 +52,6 @@
 <script>
   /*Component*/
   import bannerComponent from '@imagina/qblog/_components/widgets/widget-banner'
-  import notResults from 'src/components/notResults'
 
   export default {
     preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
@@ -87,8 +86,7 @@
       }
     },
     components: {
-      bannerComponent,
-      notResults
+      bannerComponent
     },
     watch: {},
     data() {
@@ -120,7 +118,6 @@
 </script>
 
 <style lang="stylus">
-  @import "~variables";
   #indexBlog
     .q-card
       .q-card-media

@@ -44,8 +44,7 @@
       /*Order routes from route*/
       orderRoutes() {
         this.itemsBreadCrum = []
-        let items = this.items ? this.items.items : this.$route.path.split('/')
-
+        let items = this.items ? this.items : this.$route.path.split('/')
         for (var i = 0; i < items.length; i++) {
           if (items[i] !== '') {
             this.itemsBreadCrum.push({
@@ -60,7 +59,6 @@
   }
 </script>
 <style lang="stylus">
-  @import "~variables";
   #breadcrumComponent
     @media screen and (max-width: $breakpoint-md)
       overflow-x scroll

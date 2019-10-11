@@ -7,52 +7,51 @@
           <h4 class="text-left text-grey-9 q-my-md text-weight-light" v-if="posts.length">
             {{posts[0].category.title}}
           </h4>
-          <!--Carousel-->
-          <carousel autoplay loop
-                    v-if="category && posts.length"
-                    :autoplayTimeout="4000"
-                    :perPage="$q.platform.is.desktop ? 2 : 1"
-                    :paginationEnabled="false"
-                    :navigationEnabled="$q.platform.is.desktop ? true : false"
-                    navigationNextLabel="<i class='fas fa-angle-right'></i>"
-                    navigationPrevLabel="<i class='fas fa-angle-left'></i>">
-            <!--POSTS-->
-            <slide v-for="(post, index) in posts" :key="index">
-              <router-link :to="{name : 'qblog.show', params : {slugPost : post.slug}}" class="text-secondary">
-                <div class="row gutter-sm">
-                  <div class="col-12 col-md-6">
-                    <div class="img" :style="'background-image: url('+post.mainImage.path+')'" />
+          <q-no-ssr>
+            <!--Carousel-->
+            <carousel autoplay loop
+                      v-if="category && posts.length"
+                      :autoplayTimeout="4000"
+                      :perPage="$q.platform.is.desktop ? 2 : 1"
+                      :paginationEnabled="false"
+                      :navigationEnabled="$q.platform.is.desktop ? true : false"
+                      navigationNextLabel="<i class='fas fa-angle-right'></i>"
+                      navigationPrevLabel="<i class='fas fa-angle-left'></i>">
+              <!--POSTS-->
+              <slide v-for="(post, index) in posts" :key="index">
+                <router-link
+                  :to="{name : 'qblog.show', params : {category : post.category.slug, postSlug : post.slug}}"
+                  class="text-secondary">
+                  <div class="row q-col-gutter-sm">
+                    <div class="col-12 col-md-6">
+                      <div class="img" :style="'background-image: url('+post.mainImage.path+')'"></div>
+                    </div>
+                    <div class="col-12 col-md-6 text-justify text-grey-8">
+                      <div class="text-h6 q-mb-sm">{{post.title}}</div>
+                      <p v-html="post.summary"></p>
+                    </div>
                   </div>
-                  <div class="col-12 col-md-6 text-justify text-grey-8">
-                    <div class="q-title">{{post.title}}</div>
-                    <p v-html="post.summary" />
-                  </div>
-                </div>
-              </router-link>
-            </slide>
-          </carousel>
+                </router-link>
+              </slide>
+            </carousel>
+          </q-no-ssr>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-  import { Carousel, Slide } from 'vue-carousel';
-
   export default {
     props: {
       category: {default: false},
       dataPosts: {default: false}
     },
-    components: {
-      Carousel,
-      Slide
-    },
+    components: {},
     watch: {
       category(data) {
         if (!this.posts && this.category) this.getPosts()
       },
-      dataPosts(){
+      dataPosts() {
         this.posts = this.dataPosts
       }
     },
@@ -64,7 +63,7 @@
     },
     data() {
       return {
-        posts : []
+        posts: []
       }
     },
     computed: {
@@ -83,6 +82,7 @@
 
         this.$crud.index('apiRoutes.qblog.posts', parameters).then((response) => {
           this.posts = response.data
+        }).catch(error => {
         })
       }
     }
@@ -90,8 +90,6 @@
   }
 </script>
 <style lang="stylus">
-  @import "~variables";
-
   #postComponent
     text-align center
 
@@ -105,6 +103,7 @@
 
     .VueCarousel
       margin-bottom 17px
+
       .VueCarousel-slide
         padding 0 15px
 

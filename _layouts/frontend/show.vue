@@ -38,7 +38,7 @@
 
         <!--Other Posts-->
         <div class="col-12 col-lg-4 desktop-only">
-          <posts-component></posts-component>
+          <posts-component />
         </div>
       </div>
     </div>
@@ -48,7 +48,7 @@
 <script>
   /*Component*/
   import bannerComponent from '@imagina/qblog/_components/widgets/widget-banner'
-  import commentComponent from 'src/components/commentsFB'
+  import commentComponent from 'src/components/master/commentsFB'
   import postsComponent from '@imagina/qblog/_components/widgets/widget-post-blog'
 
   export default {
@@ -129,7 +129,6 @@
 </script>
 
 <style lang="stylus">
-  @import "~variables";
   #showIblog
     .post
       .title

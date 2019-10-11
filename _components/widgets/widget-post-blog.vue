@@ -1,43 +1,65 @@
 <template>
   <div id="postBlogComponent" class="q-mt-xl">
-    <h1 class="q-title text-center">
+    <div class="text-h6 text-center">
       POST RECIENTES
-    </h1>
+    </div>
 
     <div class="full-width q-px-md">
-      <q-list class="q-pa-none">
-        <q-item separator :key="key" link :to="urlPost(post)"
-                v-for="(post, key) in posts">
-            <q-item-side :image="post.mainimage"/>
-            <q-item-main :label="post.title"/>
+      <!--Not results-->
+      <not-result v-if="!posts.length"/>
+      <!--List-->
+      <q-list class="q-pa-none" v-else bordered separator>
+        <q-item :key="key" clickable v-for="(post, key) in posts"
+                :to="{name: 'qblog.show', params : {category : post.category.slug, postSlug: post.slug}}">
+          <q-item-section>
+            <label>{{post.title}}</label>
+          </q-item-section>
         </q-item>
       </q-list>
     </div>
   </div>
 </template>
 <script>
-  import alert from '@imagina/qhelper/_plugins/alert'
-
   export default {
-    props: {},
+    props: {
+      categorySlug: {default: false}
+    },
     components: {},
     watch: {},
     mounted() {
-      this.$nextTick(function () {})
+      this.$nextTick(function () {
+        this.getData()
+      })
     },
     data() {
       return {
-        posts: this.$store.state.qblogMaster.posts
+        posts: []
       }
     },
     methods: {
-      urlPost(post){
-        return '/'+post.category.slug+'/'+post.slug
+      getData() {
+        if (this.categorySlug) {
+          this.loading = true
+          let params = {
+            refresh: true,
+            params: {
+              filter: {categorySlug: this.categorySlug},
+              include: 'category'
+            }
+          }
+
+          this.$crud.index('apiRoutes.qblog.posts', params).then(response => {
+            this.posts = response.data
+            this.loading = false
+          }).catch(error => {
+            console.error(error)
+            this.loading = false
+          })
+        }
       }
     }
 
   }
 </script>
 <style lang="stylus">
-  @import "~variables";
 </style>

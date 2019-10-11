@@ -5,20 +5,20 @@
         <div class="col-12 col-md-6 text-center">
           <!--Title-->
           <h3 class="text-primary text-weight-light q-my-sm">
-            <router-link :to="{name: 'qblog.show', params:{slugPost: post.slug }}"
+            <router-link :to="{name: 'products.index'}"
                          class="text-primary">
               {{ post.title }}
             </router-link>
           </h3>
           <!--Menu-->
           <h6 class="text-weight-light menu-title q-my-none q-mb-md">
-            <router-link :to="{name: 'products.index'}" class="text-primary">
+            <router-link :to="{name: 'products.index'}" class="text-primary" v-if="!disableLink">
               VER MENÚ
             </router-link>
           </h6>
         </div>
         <!--Description-->
-        <p class="col-12 col-md-6 q-pa-none q-title" v-html="post.description" />
+        <p class="col-12 col-md-6 q-pa-none q-title" v-html="post.description" ></p>
       </div>
     </div>
     <q-inner-loading :visible="loading">
@@ -38,7 +38,8 @@
     data() {
       return {
         post: false,
-        loading: false
+        loading: false,
+        disableLink: this.$store.getters['qsiteSettings/getSettingValueByName']('isite::disableMenuLink')
       }
     },
     mounted() {
@@ -68,7 +69,6 @@
 </script>
 
 <style lang="stylus">
-  @import "~variables"
   .menu-title a
     display inline-block
     padding 0 0 5px

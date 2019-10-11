@@ -1,31 +1,24 @@
-//Layout container
-import master from 'src/layouts/master'
-
-//Middleware
-import auth from '@imagina/quser/_router/middlewares/auth'
-import access from '@imagina/quser/_router/middlewares/access'
-
 export default {
   index: {
     permission: null,
     activated: true,
+    authenticated: true,
     path: '/blog',
     name: 'qblog.index',
-    layout: require('@imagina/qblog/_layouts/frontend/index').default,
-    containerLayout: master,
+    page: () => import('@imagina/qblog/_layouts/frontend/index'),
+    layout: () => import('src/layouts/master'),
     title: 'Posts',
-    icon: 'fas fa-newspaper',
-    middleware: [auth,access]
+    icon: 'fas fa-newspaper'
   },
   show: {
     permission: null,
     activated: true,
+    authenticated: true,
     path: '/blog/:slugPost',
     name: 'qblog.show',
-    layout: require('@imagina/qblog/_layouts/frontend/show').default,
-    containerLayout: master,
+    page: () => import('@imagina/qblog/_layouts/frontend/show'),
+    layout: () => import('src/layouts/master'),
     title: 'Categories',
     icon: 'fas fa-layer-group',
-    middleware: [auth,access]
   },
 }

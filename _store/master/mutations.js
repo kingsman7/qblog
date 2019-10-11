@@ -16,3 +16,11 @@ export const BLOG_EMPTY = (state) => {
   data.widgets = null
 };
 
+export function SET_POST (state, data) {
+  state.currentPost = data
+}
+
+export function SET_CATEGORY (state, data) {
+  state.currentCategory = data
+}
+

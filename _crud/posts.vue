@@ -52,32 +52,40 @@
           formLeft: {
             id: {value: ''},
             title: {
-              label: this.$tr('ui.form.title'),
+              label: `${this.$tr('ui.form.title')}*`,
               value: '',
               type: 'text',
-              isRequired: true,
               isTranslatable: true,
+              rules: [
+                val => !!val || this.$tr('ui.message.fieldRequired')
+              ],
             },
             slug: {
-              label: this.$tr('ui.form.slug'),
+              label: `${this.$tr('ui.form.slug')}*`,
               value: '',
               type: 'text',
-              isRequired: true,
               isTranslatable: true,
+              rules: [
+                val => !!val || this.$tr('ui.message.fieldRequired')
+              ],
             },
             summary: {
-              label: this.$tr('ui.form.summary'),
+              label: `${this.$tr('ui.form.summary')}*`,
               value: '',
               type: 'text',
-              isRequired: true,
               isTranslatable: true,
+              rules: [
+                val => !!val || this.$tr('ui.message.fieldRequired')
+              ],
             },
             description: {
-              label: this.$tr('ui.form.description'),
+              label: `${this.$tr('ui.form.description')}*`,
               value: '',
               type: 'html',
-              isRequired: true,
               isTranslatable: true,
+              rules: [
+                val => !!val || this.$tr('ui.message.fieldRequired')
+              ],
             },
             metaTitle: {
               label: this.$tr('ui.form.metaTitle'),
@@ -112,10 +120,9 @@
               ]
             },
             userId: {
-              label: this.$tr('ui.form.author'),
+              label: `${this.$tr('ui.form.author')}*`,
               value: this.$store.state.quserAuth.userId,
               type: 'select',
-              isRequired: true,
               loadOptions: {
                 apiRoute: 'apiRoutes.quser.users',
                 select: {label: 'fullName', id: 'id'},
@@ -124,13 +131,15 @@
               create: {
                 title: this.$tr('quser.layout.newUser'),
                 component: import('@imagina/quser/_crud/users')
-              }
+              },
+              rules: [
+                val => !!val || this.$tr('ui.message.fieldRequired')
+              ],
             },
             categoryId: {
-              label: this.$tr('ui.form.category'),
+              label: `${this.$tr('ui.form.category')}*`,
               value: null,
               type: 'select',
-              isRequired: true,
               loadOptions: {
                 apiRoute: 'apiRoutes.qblog.categories',
                 select: {label: 'title', id: 'id'},
@@ -139,7 +148,10 @@
               create: {
                 title: this.$tr('qblog.layout.newCategory'),
                 component: import('@imagina/qblog/_crud/categories')
-              }
+              },
+              rules: [
+                val => !!val || this.$tr('ui.message.fieldRequired')
+              ],
             },
             categories: {
               label: this.$trp('ui.form.category'),

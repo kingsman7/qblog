@@ -4,5 +4,7 @@ export default {
   categories: null,
   post: null,
   posts: null,
-  widgets: {}
+  widgets: {},
+  currentPost : null,
+  currentCategory : null
 }

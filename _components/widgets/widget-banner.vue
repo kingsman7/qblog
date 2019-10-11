@@ -39,7 +39,6 @@
   }
 </script>
 <style lang="stylus">
-  @import "~variables";
   #bannerIblog
     background-color $grey-2
     background-size cover

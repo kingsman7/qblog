@@ -65,7 +65,6 @@
   }
 </script>
 <style lang="stylus">
-  @import "~variables";
   #serviciosComponent
     width 100%
     position relative
