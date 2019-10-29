@@ -1,8 +1,8 @@
-## QBLOG  | 2.0.0
+## QBLOG  | 2.0.1
 
 ## Installation
 
-`` npm i @imagina/qblog@2.0.0 ``
+`` npm i @imagina/qblog@2.0.1 ``
 
 ## API Routes
 
@@ -12,14 +12,14 @@
 | Categories | apiRoutes.qblog.categories |
 
 ## Pages
-- ### Front-End
+- #### Front-End
 
   | PAGE | NAME |
   | ------------- | ------------- |
   | Index | qiblog.index |
   | Show | qiblog.show |
   
-- ### Back-End
+- #### Back-End
 
   | PAGE | NAME |
   | ------------- | ------------- |
