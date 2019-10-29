@@ -1,16 +1,16 @@
 <template>
-  <div id="postBlogComponent" class="q-mt-xl">
-    <div class="text-h6 text-center">
-      POST RECIENTES
+  <div id="postBlogComponent" v-if="category">
+    <div class="text-h6 text-center text-uppercase">
+      {{category.title}}
     </div>
 
     <div class="full-width q-px-md">
       <!--Not results-->
-      <not-result v-if="!posts.length"/>
+      <not-result v-if="!category.posts || !category.posts.length"/>
       <!--List-->
       <q-list class="q-pa-none" v-else bordered separator>
-        <q-item :key="key" clickable v-for="(post, key) in posts"
-                :to="{name: 'qblog.show', params : {category : post.category.slug, postSlug: post.slug}}">
+        <q-item :key="key" clickable v-for="(post, key) in category.posts"
+                :to="{name: 'qblog.show', params : {category : category.slug, postSlug: post.slug}}">
           <q-item-section>
             <label>{{post.title}}</label>
           </q-item-section>
@@ -24,38 +24,10 @@
     props: {
       categorySlug: {default: false}
     },
-    components: {},
-    watch: {},
-    mounted() {
-      this.$nextTick(function () {
-        this.getData()
-      })
-    },
-    data() {
-      return {
-        posts: []
-      }
-    },
-    methods: {
-      getData() {
-        if (this.categorySlug) {
-          this.loading = true
-          let params = {
-            refresh: true,
-            params: {
-              filter: {categorySlug: this.categorySlug},
-              include: 'category'
-            }
-          }
-
-          this.$crud.index('apiRoutes.qblog.posts', params).then(response => {
-            this.posts = response.data
-            this.loading = false
-          }).catch(error => {
-            console.error(error)
-            this.loading = false
-          })
-        }
+    computed:{
+      category(){
+        let category = this.$store.state.qcrudMaster.show[`qblog-categories-${this.categorySlug}`]
+        return category.data || false
       }
     }
 

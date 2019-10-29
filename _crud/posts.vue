@@ -111,17 +111,17 @@
           formRight: {
             masterRecord : {
               label: this.$tr('ui.form.masterRecord'),
-              value: 0,
+              value: '0',
               isFakeField : true,
               type: 'select',
               options: [
-                {label: this.$tr('ui.label.yes'), id: 1},
-                {label: this.$tr('ui.label.no'), id: 0},
+                {label: this.$tr('ui.label.yes'), value: '1'},
+                {label: this.$tr('ui.label.no'), value: '0'},
               ]
             },
             userId: {
               label: `${this.$tr('ui.form.author')}*`,
-              value: this.$store.state.quserAuth.userId,
+              value: parseInt(this.$store.state.quserAuth.userId),
               type: 'select',
               loadOptions: {
                 apiRoute: 'apiRoutes.quser.users',
@@ -169,13 +169,13 @@
             },
             status: {
               label: this.$tr('ui.form.status'),
-              value: 2,
+              value: '2',
               type: 'select',
               options: [
-                {label: this.$tr('ui.form.publish'), id: 2},
-                {label: this.$tr('ui.form.noPublish'), id: 3},
-                {label: this.$tr('ui.form.draft'), id: 0},
-                {label: this.$tr('ui.form.pending'), id: 1}
+                {label: this.$tr('ui.form.publish'), value: '2'},
+                {label: this.$tr('ui.form.noPublish'), value: '3'},
+                {label: this.$tr('ui.form.draft'), value: '0'},
+                {label: this.$tr('ui.form.pending'), value: '1'}
               ]
             },
             tags: {

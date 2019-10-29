@@ -1,15 +1,15 @@
 <template>
-  <div v-if="post" class="col-12 q-py-md">
+  <div class="col-12 q-py-md">
     <div class="q-container q-py-xl q-px-md">
       <div class="row items-center">
         <div class="col-12 col-md-6 text-center">
           <!--Title-->
-          <h3 class="text-primary text-weight-light q-my-sm">
+          <h1 class="text-h3 text-primary text-weight-light q-my-sm">
             <router-link :to="{name: 'products.index'}"
                          class="text-primary">
               {{ post.title }}
             </router-link>
-          </h3>
+          </h1>
           <!--Menu-->
           <h6 class="text-weight-light menu-title q-my-none q-mb-md">
             <router-link :to="{name: 'products.index'}" class="text-primary" v-if="!disableLink">
@@ -18,12 +18,9 @@
           </h6>
         </div>
         <!--Description-->
-        <p class="col-12 col-md-6 q-pa-none q-title" v-html="post.description" ></p>
+        <div class="col-12 col-md-6 q-pa-none q-title" v-html="post.description"></div>
       </div>
     </div>
-    <q-inner-loading :visible="loading">
-      <q-spinner-mat size="50px" color="primary"></q-spinner-mat>
-    </q-inner-loading>
   </div>
 </template>
 
@@ -31,38 +28,16 @@
   export default {
     name: "widget-post-full",
     props: {
-      slug: {
-        default: ''
-      }
+      slug: {default: ''}
     },
     data() {
       return {
-        post: false,
-        loading: false,
         disableLink: this.$store.getters['qsiteSettings/getSettingValueByName']('isite::disableMenuLink')
       }
     },
-    mounted() {
-      this.getPost()
-    },
-    watch: {
-      slug() {
-        this.getPost()
-      }
-    },
-    methods: {
-      getPost() {
-        this.loading = true
-        let params = {
-          params: {filter: {field: 'slug',}}
-        }
-
-        this.$crud.show('apiRoutes.qblog.posts', this.slug, params).then(response => {
-          this.loading = false
-          this.post = response.data
-        }).catch(error => {
-          this.loading = false
-        })
+    computed: {
+      post(){
+        return this.$store.state.qcrudMaster.show[`qblog-post-${this.slug}`].data || false
       }
     }
   }
