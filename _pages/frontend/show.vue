@@ -1,168 +1,195 @@
 <template>
-  <div id="showIblog" class="relative-position">
-    <!--= BANNER =-->
-    <banner-component :dataBanner="post">
-    </banner-component>
-
-    <div class="q-container">
-      <div class="row q-py-xl">
-        <!--Post-->
-        <div class="post col-12 col-lg-8">
-          <!--Title-->
-          <h1 class="title">
-            {{post.title}}
-          </h1>
-
-          <!--Image-->
-          <div class="img"
-               :style="'background-image: url('+post.mainimage+')'">
-            <!--Tag Date-->
-            <span class="bg-primary text-center text-uppercase text-white float-left p-2 mb-3 date">
-                <h4>{{post.created_date.day}}</h4>
-                {{post.created_date.mounth}}
-              </span>
-          </div>
-
-          <!--Description-->
-          <div class="description" v-html="post.description"></div>
-
-          <!--Autor-->
-          <div class="autor q-headline">
-            <span class="text-secondary">{{post.addedBy}}</span>, Autor
-          </div>
-
-          <!--Comments-->
-          <comment-component></comment-component>
-        </div>
-
-
-        <!--Other Posts-->
-        <div class="col-12 col-lg-4 desktop-only">
-          <posts-component />
-        </div>
+   <div id="showIblog" class="relative-position">
+      <div id="bannerIblog" v-if="post">
+         <div class="q-container">
+            <!--BreadCrum-->
+            <q-breadcrumbs active-color="primary" color="light" align="right">
+               <!-- Separator -->
+               <q-icon name="fas fa-angle-right" slot="separator" slot-scope="props"/>
+               <!-- Route Home -->
+               <q-breadcrumbs-el label="Inicio" :to="{name : 'app.home'}" icon="home"/>
+               <!-- To category -->
+               <q-breadcrumbs-el :label="post.category.title"
+                                 :to="{name : 'qblog.index', params : {category: post.category.slug}}"/>
+               <!-- To Post -->
+               <q-breadcrumbs-el :label="post.title"/>
+            </q-breadcrumbs>
+            <!--Title-->
+            <h1 class="q-ma-none text-h5 bg-white q-pa-lg title-container text-uppercase text-grey-9">
+               <label>{{post.title}}</label>
+            </h1>
+         </div>
       </div>
-    </div>
-  </div>
+
+      <!--content-->
+      <div class="q-container relative-position" v-if="post">
+         <div class="row q-py-xl">
+            <!--Post-->
+            <div class="post col-12 col-lg-8">
+               <!--Image-->
+               <div class="img" :style="'background-image: url('+post.mainImage.path+')'"></div>
+
+               <!--Description-->
+               <div class="description q-px-sm" v-html="post.description"></div>
+
+               <!--Autor-->
+               <div class="autor q-headline">
+                  <span class="text-primary">{{post.editor.first_name+' '+post.editor.last_name}}</span>, Autor
+               </div>
+            </div>
+
+            <!--Other Posts-->
+            <div class="col-12 col-lg-4 desktop-only">
+               <posts-component :category-slug="$route.params.category"/>
+            </div>
+
+            <inner-loading :visible="loading"/>
+         </div>
+      </div>
+   </div>
 </template>
 
 <script>
-  /*Component*/
-  import bannerComponent from '@imagina/qblog/_components/widgets/widget-banner'
-  import commentComponent from '@imagina/qsite/_components/master/commentsFB'
-  import postsComponent from '@imagina/qblog/_components/widgets/widget-post-blog'
+   /*Component*/
+   import commentComponent from 'src/components/master/commentsFB'
+   import postsComponent from '@imagina/qblog/_components/widgets/widget-post-blog'
 
-  export default {
-    preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
-      return Promise.all([
-        store.dispatch('qblogMaster/POST_SHOW', {
-          slug: currentRoute.params.slugPost,
-          include: 'categories'
-        }),
-        store.dispatch('qblogMaster/POST_INDEX', {
-          filter : {
-            categorySlug : 'blog'
-          },
-          include: 'category'
-        })
-      ])
-    },
-    meta() {
-      return {
-        title: this.metaData.siteName,
-        meta: {
-          description: {name: 'description', content: this.metaData.summary},
-          //Schema.org para Google+
-          itemprop: {itemprop: "name", content: this.metaData.title},
-          itemprop1: {itemprop: "description", content: this.metaData.summary},
-          itemprop2: {itemprop: "image", content: this.metaData.image},
-          //Open Graph para Facebook
-          property: {property: "og:title", content: this.metaData.title},
-          property1: {property: "og:type", content: "article"},
-          property2: {property: "og:image", itemprop: "image", content: this.metaData.image},
-          property3: {property: "og:image:secure_url", itemprop: "image", content: this.metaData.image},
-          property4: {property: "og:url", content: this.metaData.url},
-          property5: {property: "og:description", content: this.metaData.summary},
-          property6: {property: "og:site_name", content: this.metaData.siteName},
-          property7: {property: "og:locale", content: "es_ES"},
-          //Twitter Card
-          name: {name: "twitter:card", content: "summary_large_image"},
-          name1: {name: "twitter:site", content: this.metaData.siteName},
-          name2: {name: "twitter:title", content: this.metaData.title},
-          name3: {name: "twitter:description", content: this.metaData.summary},
-          name4: {name: "twitter:creator", content: ""},
-          name5: {name: "twitter:image:,src", content: this.metaData.image},
-        },
-      }
-    },
-    components: {
-      bannerComponent,
-      commentComponent,
-      postsComponent
-    },
-    watch: {},
-    data() {
-      return {
-        post: this.$store.state.qblogMaster.post,
-        innerLoading: false,
-      }
-    },
-    mounted() {
-      this.$nextTick(function () {})
-    },
-    computed: {
-      /**
-       * Order the meta data
-       */
-      metaData() {
-        let data = this.$store.state.qblogMaster.post
-
-        return {
-          siteName: (data && data.title) ? data.title + ' | ' + env('TITLE') : 'not found',
-          title: (data && data.title) ? data.title : 'not found',
-          summary: (data && data.summary) ? data.summary : 'not found',
-          image: (data && data.mainimage) ? data.mainimage : 'not found',
-          url: data ? env('URL') + this.$route.path : 'not found'
-        }
+   export default {
+      preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
+         return new Promise(async resolve => {
+            //Get data post
+            let postSlug = currentRoute.params.slugPost || false
+            await store.dispatch('qcrudMaster/SHOW', {
+               indexName: `qblog-posts-${postSlug}`,
+               criteria: postSlug,
+               apiRoute: 'apiRoutes.qblog.posts',
+               requestParams: {refresh: true, params: {include: 'category,user'}}
+            })
+            //Get list related posts
+            let categorySlug = currentRoute.params.category || false
+            await store.dispatch('qcrudMaster/SHOW', {
+               indexName: `qblog-categories-${categorySlug}`,
+               criteria: categorySlug,
+               apiRoute: 'apiRoutes.qblog.categories',
+               requestParams: {refresh: true, params: {}}
+            })
+            resolve(true)
+         })
       },
-    },
-  }
+      meta() {
+         let postSlug = this.$route.params.slugPost
+         let routetitle = postSlug || 'productos'
+         let siteName = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-name')
+         let siteDescription = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-description')
+         //Set category data
+         let post = this.$store.state.qcrudMaster.show[`qblog-posts-${postSlug}`].data
+         if (post) {
+            routetitle = post.title
+            siteDescription = post.summary
+         }
+         return {
+            title: `${routetitle.charAt(0).toUpperCase() + routetitle.slice(1)} | ${siteName}`,
+            meta: {
+               description: {name: 'description', content: (siteDescription || siteName)},
+            },
+         }
+      },
+      components: {
+         commentComponent,
+         postsComponent
+      },
+      watch: {
+         '$route.params'() {
+            this.getData()
+         },
+      },
+      data() {
+         return {
+            post: this.$store.state.qcrudMaster.show[`qblog-posts-${this.$route.params.slugPost}`].data,
+            loading: false
+         }
+      },
+      computed: {
+         post() {
+            let postSlug = this.$route.params.slugPost
+            let post = this.$store.state.qcrudMaster.show[`qblog-posts-${postSlug}`]
+            return post.data || false
+         }
+      },
+      methods: {
+         async getData() {
+            this.loading = true
+
+            let postSlug = this.$clone(this.$route.params.slugPost)
+            await this.$store.dispatch('qcrudMaster/SHOW', {
+               indexName: `qblog-posts-${postSlug}`,
+               criteria: postSlug,
+               apiRoute: 'apiRoutes.qblog.posts',
+               requestParams: {refresh: true, params: {include: 'categories,user'}}
+            })
+            this.loading = false
+         },
+      },
+   }
 </script>
 
 <style lang="stylus">
-  #showIblog
-    .post
-      .title
-        font-size 34px
-        color $dark
-        margin-top 0
-        @media screen and (max-width : $breakpoint-md)
-          font-size 24px
-          text-align center
-      .img
-        height 400px
-        width 100%
-        position relative
-        background-repeat no-repeat
-        background-position center
-        background-size cover
-        span
-          padding 5px
-          position absolute
-          top 0px
-          left 20px
-          line-height 1.5
-          h4
-            margin 0
-      .autor
-        padding 15px 0
-        margin-bottom 25px
-        border-top: 1px solid $grey-5
-        border-bottom: 1px solid $grey-5
-      .description
-        margin 30px 0px
-        p
-          line-height 1.6
-          text-align justify
-    iframe
-      width 100% !important
+   #showIblog
+      .post
+         .title
+            font-size 34px
+            color $dark
+            margin-top 0
+            @media screen and (max-width: $breakpoint-md)
+               font-size 24px
+               text-align center
+
+         .img
+            height 400px
+            width 100%
+            position relative
+            background-repeat no-repeat
+            background-position center
+            background-size cover
+
+            span
+               padding 5px
+               position absolute
+               top 0px
+               left 20px
+               line-height 1.5
+
+               h4
+                  margin 0
+
+         .autor
+            padding 15px 8px
+            margin-bottom 25px
+            border-top: 1px solid $grey-5
+            border-bottom: 1px solid $grey-5
+
+         .description
+            margin 30px 0px
+
+            p
+               line-height 1.6
+               text-align justify
+
+      iframe
+         width 100% !important
+
+      #bannerIblog
+         background-color $grey-4
+         padding 5px
+
+         .title-container
+            border-top-right-radius 50px
+            width max-content
+
+            label
+               font-weight bold !important
+               border-bottom: 5px solid $secondary
 </style>
+
+
+name: "show"
