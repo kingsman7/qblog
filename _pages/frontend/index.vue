@@ -1,150 +1,134 @@
 <template>
-  <div id="indexBlog" class="relative-position">
-    <!--= BANNER =-->
-    <banner-component :dataBanner="{title: 'blog'}">
-    </banner-component>
-
-    <!-- Contend -->
-    <div class="q-container">
-      <div class="contentDescription gutter-md row q-py-lg"
-           v-if="posts && posts.length">
-        <div class="col-12 col-lg-4" :key="key"
-             v-for="(post,key) in posts">
-          <q-card inline style="width: 100%">
-            <q-card-media>
-              <router-link :to="'/blog/'+post.slug">
-                <div class="img" :style="'background-image: url('+post.mainimage+')'"></div>
-              </router-link>
-            </q-card-media>
-            <q-card-title>
-              <router-link :to="'/blog/'+post.slug">
-                <h1 class="text-primary q-headline">
-                  {{post.title}}
-                </h1>
-              </router-link>
-              <!--Tag Date-->
-              <span class="bg-primary text-center text-uppercase text-white float-left p-2 mb-3 date">
-                <h4>{{post.created_date.day}}</h4>
-                {{post.created_date.mounth}}
-              </span>
-            </q-card-title>
-            <q-card-main>
-              <p class="text-faded q-mb-none">
-                Por {{post.addedBy}}
-              </p>
-            </q-card-main>
-            <q-card-separator/>
-            <q-card-actions>
-              <p class="q-px-md q-py-sm">
-                {{post.summary}}
-              </p>
-            </q-card-actions>
-          </q-card>
-        </div>
+   <div id="indexBlog1" class="relative-position">
+      <!-- BANNER -->
+      <div id="bannerIblog" v-if="category">
+         <div class="q-container">
+            <!--BreadCrum-->
+            <q-breadcrumbs active-color="primary" color="light" align="right">
+               <!-- Separator -->
+               <q-icon name="fas fa-angle-right" slot="separator" slot-scope="props"/>
+               <!-- Route Home -->
+               <q-breadcrumbs-el label="Inicio" :to="{name : 'app.home'}" icon="home"/>
+               <!-- To category -->
+               <q-breadcrumbs-el :label="$route.params.category.split('-').join(' ')"/>
+            </q-breadcrumbs>
+            <!--Title-->
+            <h1 class="q-ma-none text-h5 bg-white q-pa-lg title-container text-uppercase text-grey-9">
+               <label>{{category.title}}</label>
+            </h1>
+         </div>
       </div>
+<pre>
 
-      <!--Not results-->
-      <not-results v-if="!posts.length"></not-results>
-    </div>
-  </div>
+</pre>
+      <!-- Contend -->
+      <div class="q-container relative-position">
+         <div class="contentDescription q-col-gutter-md row q-py-lg q-px-sm" v-if="category && category.posts">
+            <div class="col-12 col-md-4 col-lg-3" :key="key"
+                 v-for="(post,key) in category.posts">
+               <q-card inline style="width: 100%" flat>
+                  <!--Media-->
+                  <router-link :to="{name: 'qblog.show',params:{category: post.category.slug, slugPost: post.slug}}">
+                     <div class="img" :style="'background-image: url('+post.mainImage.path+')'"></div>
+                  </router-link>
+                  <!--Date-->
+                  <q-card-actions class="q-px-sm q-pb-md">
+                     <p class="q-mb-none">
+                        {{ $trd(post.createdAt) }}
+                     </p>
+                  </q-card-actions>
+                  <q-separator class="q-ml-sm"/>
+                  <q-card-section class="q-pa-sm">
+                     <router-link
+                             :to="{name: 'qblog.show',params:{category: post.category.slug, slugPost: post.slug}}">
+                        <h2 class="q-ma-none text-primary text-h6 text-weight-bold">
+                           {{post.title}}
+                        </h2>
+                     </router-link>
+                  </q-card-section>
+                  <q-card-section class="q-pa-none">
+                     <p class="q-pa-sm text-justify">
+                        {{post.summary}}
+                     </p>
+                  </q-card-section>
+               </q-card>
+            </div>
+         </div>
+
+         <!--Not results-->
+         <not-results v-else/>
+      </div>
+   </div>
 </template>
 
 <script>
-  /*Component*/
-  import bannerComponent from '@imagina/qblog/_components/widgets/widget-banner'
-
-  export default {
-    preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
-      return store.dispatch('qblogMaster/CATEGORY_SHOW', {slug: 'blog', include : 'posts'})
-    },
-    meta() {
-      return {
-        title: this.metaData.siteName,
-        meta: {
-          description: {name: 'description', content: this.metaData.summary},
-          //Schema.org para Google+
-          itemprop: {itemprop: "name", content: this.metaData.title},
-          itemprop1: {itemprop: "description", content: this.metaData.summary},
-          itemprop2: {itemprop: "image", content: this.metaData.image},
-          //Open Graph para Facebook
-          property: {property: "og:title", content: this.metaData.title},
-          property1: {property: "og:type", content: "article"},
-          property2: {property: "og:image", itemprop: "image", content: this.metaData.image},
-          property3: {property: "og:image:secure_url", itemprop: "image", content: this.metaData.image},
-          property4: {property: "og:url", content: this.metaData.url},
-          property5: {property: "og:description", content: this.metaData.summary},
-          property6: {property: "og:site_name", content: this.metaData.siteName},
-          property7: {property: "og:locale", content: "es_ES"},
-          //Twitter Card
-          name: {name: "twitter:card", content: "summary_large_image"},
-          name1: {name: "twitter:site", content: this.metaData.siteName},
-          name2: {name: "twitter:title", content: this.metaData.title},
-          name3: {name: "twitter:description", content: this.metaData.summary},
-          name4: {name: "twitter:creator", content: ""},
-          name5: {name: "twitter:image:,src", content: this.metaData.image},
-        },
-      }
-    },
-    components: {
-      bannerComponent
-    },
-    watch: {},
-    data() {
-      return {
-        posts: this.$store.state.qblogMaster.category.posts,
-        innerLoading: false,
-      }
-    },
-    mounted() {
-      this.$nextTick(function () {})
-    },
-    computed: {
-      /**
-       * Order the meta data
-       */
-      metaData() {
-        let data = this.$store.state.qblogMaster.category
-
-        return {
-          siteName: (data && data.title) ? data.title + ' | ' + env('TITLE') : 'not found',
-          title: (data && data.title) ? data.title : 'not found',
-          summary: (data && data.summary) ? data.summary : 'not found',
-          image: (data && data.mainimage) ? data.mainimage : 'not found',
-          url: data ? env('URL') + this.$route.path : 'not found'
-        }
+   export default {
+      preFetch({store, currentRoute, previousRoute, redirect, ssrContext}) {
+         return new Promise(async resolve => {
+            let category = currentRoute.params.category || false
+            await store.dispatch('qcrudMaster/SHOW', {
+               indexName: `qblog-categories-${category}`,
+               criteria: category,
+               apiRoute: 'apiRoutes.qblog.categories',
+               requestParams: {refresh: true, params: {include: 'posts'}}
+            })
+            resolve(true)
+         })
       },
-    },
-  }
+      meta() {
+
+         let routetitle = this.$route.params.category || 'productos'
+         let siteName = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-name')
+         let siteDescription = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-description')
+         let iconHref = this.$store.getters['qsiteSettings/getSettingMediaByName']('isite::favicon').path
+         //Set category data
+         let category = this.$store.state.qcrudMaster.show[`qblog-categories-${routetitle}`].data
+         if (category) {
+            routetitle = category.title
+            siteDescription = category.summary
+         }
+         return {
+            title: `${routetitle.charAt(0).toUpperCase() + routetitle.slice(1)} | ${siteName}`,
+            meta: {
+               description: {name: 'description', content: (siteDescription || siteName)},
+            },
+         }
+      },
+      data() {
+         return {
+            category: this.$store.state.qcrudMaster.show[`qblog-categories-${this.$route.params.category}`].data,
+         }
+      }
+   }
 </script>
 
 <style lang="stylus">
-  #indexBlog
-    .q-card
-      .q-card-media
-        .img
-          background-size cover
-          background-position center
-          background-repeat no-repeat
-          height 277px
-          width 100%
-      .q-card-title
-        position relative
-        h1
-          line-height 1
-          height 50px
-          overflow hidden
-          padding-left 65px
-        span
-          padding 5px
-          position absolute
-          top -16px
-          left 0
-          line-height 1.5
-          h4
-            margin 0
-      .q-card-actions
-        p
-          line-height 1.4
-          height 75px
-          overflow hidden
+   #indexBlog1
+      .q-card
+         .img
+            background-size cover
+            background-position center
+            background-repeat no-repeat
+            height 230px
+            width 100%
+
+         .q-separator
+            background $secondary
+            height 5px
+            width 30%
+
+      #bannerIblog
+         background-color $grey-4
+         padding 5px
+
+         .title-container
+            border-top-right-radius 50px
+            width max-content
+
+            label
+               font-weight bold !important
+               border-bottom: 5px solid $secondary
 </style>
+
+
+
