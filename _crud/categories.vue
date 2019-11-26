@@ -4,9 +4,15 @@
   import crud from '@imagina/qcrud/_components/crud'
 
   export default {
+    data() {
+      return {
+        crudId: this.$uid()
+      }
+    },
     computed: {
       crudData() {
         return {
+          crudId: this.crudId,
           apiRoute: 'apiRoutes.qblog.categories',
           permission: 'iblog.categories',
           create: {
@@ -38,63 +44,79 @@
             id: {value: ''},
             userId: {value: this.$store.state.quserAuth.userId},
             title: {
-              label: `${this.$tr('ui.form.title')}*`,
               value: '',
-              type: 'text',
+              type: 'input',
               isTranslatable: true,
-              rules: [
-                val => !!val || this.$tr('ui.message.fieldRequired')
-              ],
+              props : {
+                label: `${this.$tr('ui.form.title')}*`,
+                rules: [
+                  val => !!val || this.$tr('ui.message.fieldRequired')
+                ],
+              },
             },
             slug: {
-              label: `${this.$tr('ui.form.slug')}*`,
               value: '',
-              type: 'text',
+              type: 'input',
               isTranslatable: true,
-              rules: [
-                val => !!val || this.$tr('ui.message.fieldRequired')
-              ],
+              props : {
+                label: `${this.$tr('ui.form.slug')}*`,
+                rules: [
+                  val => !!val || this.$tr('ui.message.fieldRequired')
+                ],
+              }
             },
             description: {
-              label: `${this.$tr('ui.form.description')}*`,
               value: '',
               type: 'html',
               isTranslatable: true,
-              rules: [
-                val => !!val || this.$tr('ui.message.fieldRequired')
-              ],
+              props : {
+                label: `${this.$tr('ui.form.description')}*`,
+                rules: [
+                  val => !!val || this.$tr('ui.message.fieldRequired')
+                ],
+              }
             },
             metaTitle: {
-              label: this.$tr('ui.form.metaTitle'),
               value: '',
               isTranslatable: true,
-              type: 'text',
+              type: 'input',
+              props : {
+                label: this.$tr('ui.form.metaTitle'),
+              }
             },
             metaDescription: {
-              label: this.$tr('ui.form.metaDescription'),
               value: '',
-              type: 'textarea',
+              type: 'input',
               isTranslatable: true,
+              props : {
+                label: this.$tr('ui.form.metaDescription'),
+                type: 'textarea',
+                rows : 3
+              }
             },
           },
           formRight: {
             masterRecord : {
-              label: this.$tr('ui.form.masterRecord'),
               value: 0,
               isFakeField : true,
               type: 'select',
-              options: [
-                {label: this.$tr('ui.label.yes'), value: 1},
-                {label: this.$tr('ui.label.no'), value: 0},
-              ]
+              props : {
+                label: this.$tr('ui.form.masterRecord'),
+                options: [
+                  {label: this.$tr('ui.label.yes'), value: 1},
+                  {label: this.$tr('ui.label.no'), value: 0},
+                ]
+              }
             },
             parentId: {
-              label: this.$tr('ui.form.parent'),
-              value: null,
+              value: 0,
               type: 'select',
-              options : [
-                {label: this.$tr('ui.label.disabled'), value: 0},
-              ],
+              props : {
+                label: this.$tr('ui.form.parent'),
+                options : [
+                  {label: this.$tr('ui.label.disabled'), value: 0},
+                ],
+              },
               loadOptions: {
                 apiRoute: 'apiRoutes.qblog.categories',
                 select: {label: 'title', id: 'id'},
@@ -103,24 +125,32 @@
             },
             mediasSingle: {
               name: 'mediasSingle',
-              label: this.$tr('ui.form.firstImage'),
               value: {},
               type: 'media',
-              zone: 'mainimage',
-              entity: "Modules\\Iblog\\Entities\\Category",
-              enitityId: null
+              props : {
+                label: this.$tr('ui.form.firstImage'),
+                zone: 'mainimage',
+                entity: "Modules\\Iblog\\Entities\\Category",
+                enitityId: null
+              }
             },
             mediasSingle2: {
               name: 'mediasSingle',
-              label: this.$tr('ui.form.secondaryImage'),
               value: {},
               type: 'media',
-              zone: 'secondaryimage',
-              entity: "Modules\\Iblog\\Entities\\Category",
-              enitityId: null
+              props : {
+                label: this.$tr('ui.form.secondaryImage'),
+                zone: 'secondaryimage',
+                entity: "Modules\\Iblog\\Entities\\Category",
+                enitityId: null
+              }
             }
           },
         }
+      },
+      //Crud info
+      crudInfo() {
+        return this.$store.state.qcrudComponent.component[this.crudId] || {}
       }
     },
   }

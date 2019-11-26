@@ -1,9 +1,15 @@
 <template></template>
 <script>
   export default {
+    data() {
+      return {
+        crudId: this.$uid()
+      }
+    },
     computed: {
       crudData() {
         return {
+          crudId: this.crudId,
           apiRoute: 'apiRoutes.qblog.posts',
           permission: 'iblog.posts',
           create: {
@@ -42,7 +48,7 @@
                 name: 'actions', label: this.$tr('ui.form.actions'), align: 'center'
               },
             ],
-            requestParams : {include : 'category'}
+            requestParams: {include: 'category'}
           },
           update: {
             title: this.$tr('qblog.layout.updatePost'),
@@ -52,147 +58,180 @@
           formLeft: {
             id: {value: ''},
             title: {
-              label: `${this.$tr('ui.form.title')}*`,
               value: '',
-              type: 'text',
+              type: 'input',
               isTranslatable: true,
-              rules: [
-                val => !!val || this.$tr('ui.message.fieldRequired')
-              ],
+              props: {
+                label: `${this.$tr('ui.form.title')}*`,
+                rules: [
+                  val => !!val || this.$tr('ui.message.fieldRequired')
+                ],
+              },
             },
             slug: {
-              label: `${this.$tr('ui.form.slug')}*`,
               value: '',
-              type: 'text',
+              type: 'input',
               isTranslatable: true,
-              rules: [
-                val => !!val || this.$tr('ui.message.fieldRequired')
-              ],
+              props: {
+                label: `${this.$tr('ui.form.slug')}*`,
+                rules: [
+                  val => !!val || this.$tr('ui.message.fieldRequired')
+                ],
+              },
             },
             summary: {
-              label: `${this.$tr('ui.form.summary')}*`,
               value: '',
-              type: 'text',
+              type: 'input',
               isTranslatable: true,
-              rules: [
-                val => !!val || this.$tr('ui.message.fieldRequired')
-              ],
+              props: {
+                label: `${this.$tr('ui.form.summary')}*`,
+                type: 'textarea',
+                rows: "3",
+                rules: [
+                  val => !!val || this.$tr('ui.message.fieldRequired')
+                ],
+              },
             },
             description: {
-              label: `${this.$tr('ui.form.description')}*`,
               value: '',
               type: 'html',
               isTranslatable: true,
-              rules: [
-                val => !!val || this.$tr('ui.message.fieldRequired')
-              ],
+              props: {
+                label: `${this.$tr('ui.form.description')}*`,
+                rules: [
+                  val => !!val || this.$tr('ui.message.fieldRequired')
+                ],
+              }
             },
             metaTitle: {
-              label: this.$tr('ui.form.metaTitle'),
               value: '',
-              type: 'text',
+              type: 'input',
               isTranslatable: true,
+              props: {
+                label: this.$tr('ui.form.metaTitle'),
+              }
             },
             metaDescription: {
-              label: this.$tr('ui.form.metaDescription'),
               value: '',
-              type: 'textarea',
+              type: 'input',
               isTranslatable: true,
+              props: {
+                label: this.$tr('ui.form.metaDescription'),
+                type: 'textarea',
+                rows: 2,
+              }
             },
             mediasMulti: {
-              label: this.$tr('ui.form.gallery'),
               value: {},
               type: 'media',
-              zone: 'gallery',
-              entity: "Modules\\Iblog\\Entities\\Post",
-              enitityId: null
+              props: {
+                label: this.$tr('ui.form.gallery'),
+                zone: 'gallery',
+                entity: "Modules\\Iblog\\Entities\\Post",
+                enitityId: null
+              }
             },
           },
           formRight: {
-            masterRecord : {
-              label: this.$tr('ui.form.masterRecord'),
+            masterRecord: {
               value: '0',
-              isFakeField : true,
               type: 'select',
-              options: [
-                {label: this.$tr('ui.label.yes'), value: '1'},
-                {label: this.$tr('ui.label.no'), value: '0'},
-              ]
-            },
-            userId: {
-              label: `${this.$tr('ui.form.author')}*`,
-              value: parseInt(this.$store.state.quserAuth.userId),
-              type: 'select',
-              loadOptions: {
-                apiRoute: 'apiRoutes.quser.users',
-                select: {label: 'fullName', id: 'id'},
-                requestParams: {filter: {roleSlug : 'author'}}
-              },
-              create: {
-                title: this.$tr('quser.layout.newUser'),
-                component: import('@imagina/quser/_crud/users')
-              },
-              rules: [
-                val => !!val || this.$tr('ui.message.fieldRequired')
-              ],
-            },
-            categoryId: {
-              label: `${this.$tr('ui.form.category')}*`,
-              value: null,
-              type: 'select',
-              loadOptions: {
-                apiRoute: 'apiRoutes.qblog.categories',
-                select: {label: 'title', id: 'id'},
-                requestParams: {include: 'parent'}
-              },
-              create: {
-                title: this.$tr('qblog.layout.newCategory'),
-                component: import('@imagina/qblog/_crud/categories')
-              },
-              rules: [
-                val => !!val || this.$tr('ui.message.fieldRequired')
-              ],
-            },
-            categories: {
-              label: this.$trp('ui.form.category'),
-              value: [],
-              type: 'multiSelect',
-              loadOptions: {
-                apiRoute: 'apiRoutes.qblog.categories',
-                select: {label: 'title', id: 'id'},
-                requestParams: {include: ''}
-              },
-              create: {
-                title: this.$tr('qblog.layout.newCategory'),
-                component: import('@imagina/qblog/_crud/categories')
+              isFakeField: true,
+              props: {
+                label: this.$tr('ui.form.masterRecord'),
+                options: [
+                  {label: this.$tr('ui.label.yes'), value: '1'},
+                  {label: this.$tr('ui.label.no'), value: '0'},
+                ]
               }
             },
+            userId: {
+              value: parseInt(this.$store.state.quserAuth.userId),
+              type: 'crud',
+              props: {
+                type: 'select',
+                crudData: import('@imagina/quser/_crud/users'),
+                crudProps: {
+                  label: `${this.$tr('ui.form.author')}*`,
+                  rules: [
+                    val => !!val || this.$tr('ui.message.fieldRequired')
+                  ],
+                },
+                config: {
+                  options: {label: 'fullName', value: 'id'},
+                  requestParams: {filter: {roleSlug: 'author'}}
+                },
+              },
+            },
+            categoryId: {
+              value: null,
+              type: 'crud',
+              props: {
+                crudType: 'select',
+                crudData: import('@imagina/qblog/_crud/categories'),
+                crudProps: {
+                  label: `${this.$tr('ui.form.category')}*`,
+                  rules: [
+                    val => !!val || this.$tr('ui.message.fieldRequired')
+                  ],
+                },
+              },
+            },
+            categories: {
+              value: [],
+              type: 'crud',
+              props: {
+                crudType: 'select',
+                crudData: import('@imagina/qblog/_crud/categories'),
+                crudProps: {
+                  label: this.$trp('ui.form.category'),
+                  multiple : true,
+                  useChips : true
+                },
+              },
+            },
             status: {
-              label: this.$tr('ui.form.status'),
               value: '2',
               type: 'select',
-              options: [
-                {label: this.$tr('ui.form.publish'), value: '2'},
-                {label: this.$tr('ui.form.noPublish'), value: '3'},
-                {label: this.$tr('ui.form.draft'), value: '0'},
-                {label: this.$tr('ui.form.pending'), value: '1'}
-              ]
+              props: {
+                label: this.$tr('ui.form.status'),
+                options: [
+                  {label: this.$tr('ui.form.publish'), value: '2'},
+                  {label: this.$tr('ui.form.noPublish'), value: '3'},
+                  {label: this.$tr('ui.form.draft'), value: '0'},
+                  {label: this.$tr('ui.form.pending'), value: '1'}
+                ]
+              },
             },
             tags: {
-              label: this.$trp('ui.form.tag'),
               value: [],
-              type: 'chips',
+              type: 'select',
+              props: {
+                label: this.$trp('ui.form.tag'),
+                useInput: true,
+                useChips: true,
+                multiple: true,
+                hideDropdownIcon: true,
+                inputDebounce: "0",
+                newValueMode: "add-unique"
+              }
             },
             mediasSingle: {
-              label: this.$tr('ui.form.image'),
               value: {},
               type: 'media',
-              zone: 'mainimage',
-              entity: "Modules\\Iblog\\Entities\\Post",
-              enitityId: null
+              props: {
+                label: this.$tr('ui.form.image'),
+                zone: 'mainimage',
+                entity: "Modules\\Iblog\\Entities\\Post",
+                enitityId: null
+              }
             }
           },
         }
+      },
+      //Crud info
+      crudInfo() {
+        return this.$store.state.qcrudComponent.component[this.crudId] || {}
       }
     },
   }
