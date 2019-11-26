@@ -51,7 +51,7 @@
 
 <script>
    /*Component*/
-   import commentComponent from 'src/components/master/commentsFB'
+   import commentComponent from '@imagina/qsite/_components/master/commentsFB'
    import postsComponent from '@imagina/qblog/_components/widgets/widget-post-blog'
 
    export default {

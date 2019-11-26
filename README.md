@@ -1,8 +1,8 @@
-## QBLOG  | 2.0.3
+## QBLOG  | 2.0.4
 
 ## Installation
 
-`` npm i @imagina/qblog@2.0.3 ``
+`` npm i @imagina/qblog@2.0.4 ``
 
 ## API Routes
 
