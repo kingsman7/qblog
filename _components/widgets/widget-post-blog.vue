@@ -10,7 +10,7 @@
       <!--List-->
       <q-list class="q-pa-none" v-else bordered separator>
         <q-item :key="key" clickable v-for="(post, key) in category.posts"
-                :to="{name: 'qblog.show', params : {category : category.slug, postSlug: post.slug}}">
+                :to="{name: 'qblog.show', params : {category : category.slug, slugPost: post.slug}}">
           <q-item-section>
             <label>{{post.title}}</label>
           </q-item-section>

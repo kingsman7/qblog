@@ -20,7 +20,7 @@
               <!--POSTS-->
               <slide v-for="(post, index) in posts" :key="index">
                 <router-link
-                  :to="{name : 'qblog.show', params : {category : post.category.slug, postSlug : post.slug}}"
+                  :to="{name : 'qblog.show', params : {category : post.category.slug, slugPost : post.slug}}"
                   class="text-secondary">
                   <div class="row q-col-gutter-sm">
                     <div class="col-12 col-md-6">
