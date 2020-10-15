@@ -131,7 +131,7 @@
                 label: this.$tr('ui.form.firstImage'),
                 zone: 'mainimage',
                 entity: "Modules\\Iblog\\Entities\\Category",
-                enitityId: null
+                entityId: null
               }
             },
             mediasSingle2: {
@@ -142,7 +142,7 @@
                 label: this.$tr('ui.form.secondaryImage'),
                 zone: 'secondaryimage',
                 entity: "Modules\\Iblog\\Entities\\Category",
-                enitityId: null
+                entityId: null
               }
             }
           },

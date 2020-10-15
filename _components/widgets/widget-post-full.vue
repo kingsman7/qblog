@@ -32,7 +32,7 @@
     },
     data() {
       return {
-        disableLink: this.$store.getters['qsiteSettings/getSettingValueByName']('isite::disableMenuLink')
+        disableLink: this.$store.getters['qsiteApp/getSettingValueByName']('isite::disableMenuLink')
       }
     },
     computed: {

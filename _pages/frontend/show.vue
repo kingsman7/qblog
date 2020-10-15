@@ -79,8 +79,8 @@
       meta() {
          let postSlug = this.$route.params.slugPost
          let routetitle = postSlug || 'productos'
-         let siteName = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-name')
-         let siteDescription = this.$store.getters['qsiteSettings/getSettingValueByName']('core::site-description')
+         let siteName = this.$store.getters['qsiteApp/getSettingValueByName']('core::site-name')
+         let siteDescription = this.$store.getters['qsiteApp/getSettingValueByName']('core::site-description')
          //Set category data
          let post = this.$store.state.qcrudMaster.show[`qblog-posts-${postSlug}`].data
          if (post) {

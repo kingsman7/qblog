@@ -128,7 +128,7 @@
                 label: this.$tr('ui.form.gallery'),
                 zone: 'gallery',
                 entity: "Modules\\Iblog\\Entities\\Post",
-                enitityId: null
+                entityId: null
               }
             },
           },
@@ -223,7 +223,7 @@
                 label: this.$tr('ui.form.image'),
                 zone: 'mainimage',
                 entity: "Modules\\Iblog\\Entities\\Post",
-                enitityId: null
+                entityId: null
               }
             }
           },
