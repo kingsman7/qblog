@@ -12,6 +12,7 @@
           crudId: this.crudId,
           apiRoute: 'apiRoutes.qblog.posts',
           permission: 'iblog.posts',
+          extraFormFields: 'crud-fields.Iblog.posts',
           create: {
             title: this.$tr('qblog.layout.newPost'),
           },
