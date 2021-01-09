@@ -49,7 +49,19 @@
                 name: 'actions', label: this.$tr('ui.form.actions'), align: 'center'
               },
             ],
-            requestParams: {include: 'category'}
+            requestParams: {include: 'category'},
+            filters:{
+              categoryId : {
+                value : null,
+                type : 'treeSelect',
+                props : {
+                  label : this.$tr('ui.label.category')
+                },
+                loadOptions : {
+                  apiRoute : 'apiRoutes.qblog.categories'
+                }
+              }
+            }
           },
           update: {
             title: this.$tr('qblog.layout.updatePost'),
@@ -126,7 +138,7 @@
               value: {},
               type: 'media',
               props: {
-                label: this.$tr('ui.form.gallery'),
+                label: this.$tr('ui.form.gallery') + 'tt',
                 zone: 'gallery',
                 entity: "Modules\\Iblog\\Entities\\Post",
                 entityId: null
