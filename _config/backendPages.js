@@ -29,5 +29,18 @@ export default {
       refresh: true,
     }
   },
-
+  postsInternal: {
+    permission: 'iblog.posts.manage',
+    activated: true,
+    authenticated: true,
+    path: '/blog/posts/internal',
+    name: 'qblog.admin.posts.internal',
+    page: () => import('@imagina/qblog/_pages/admin/posts/internal'),
+    layout: () => import('@imagina/qsite/_layouts/master.vue'),
+    title: 'qblog.sidebar.adminPostsInternal',
+    icon: 'far fa-newspaper',
+    subHeader: {
+      refresh: true,
+    }
+  },
 }

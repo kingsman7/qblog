@@ -35,7 +35,7 @@ export default {
           text2: {field: 'title'},
           text3: {field: 'summary'},
         },
-        actionTo: 'qblog.admin.posts'
+        actionTo: 'qblog.admin.posts.internal'
       }
     }
   },

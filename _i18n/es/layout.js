@@ -3,6 +3,7 @@ export default {
   updatePost : 'Actualizar Entrada',
   newCategory : 'Nueva Categoría',
   updateCategory : 'Actualizar Categoría',
+  post : 'Entrada',
   quickCard : {
     lastPosts : 'Blog - Ultimos Posts'
   }
