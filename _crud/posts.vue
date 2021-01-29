@@ -26,18 +26,18 @@
               {
                 name: 'title', label: this.$tr('ui.form.title'),
                 field: 'title',
-                align: 'center',
+                align: 'left',
                 sortable: true,
               },
               {
                 name: 'slug', label: this.$tr('ui.form.slug'),
                 field: 'slug',
-                align: 'center',
+                align: 'left',
                 sortable: true,
               },
               {
                 name: 'category', label: this.$tr('ui.form.category'),
-                align: 'center', field: 'category', sortable: true,
+                align: 'left', field: 'category', sortable: true,
                 format: val => ((val && val.title) ? val.title : '-')
               },
               {
@@ -51,7 +51,7 @@
             ],
             requestParams: {include: 'category'},
             filters:{
-              categoryId : {
+              categories : {
                 value : null,
                 type : 'treeSelect',
                 props : {
