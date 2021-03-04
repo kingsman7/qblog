@@ -102,11 +102,11 @@
         let data = this.$store.state.qblogMaster.dataIblog
 
         return {
-          siteName: (data && data.title) ? data.title + ' | ' + env('TITLE') : 'not found',
+          siteName: (data && data.title) ? data.title + ' | ' + '' : 'not found',
           title: (data && data.title) ? data.title : 'not found',
           summary: (data && data.summary) ? data.summary : 'not found',
           image: (data && data.mainimage) ? data.mainimage : 'not found',
-          url: data ? env('URL')+this.$route.path : 'not found'
+          url: data ? ''+this.$route.path : 'not found'
         }
       },
       /**
