@@ -6,5 +6,12 @@ export default {
   post : 'Entrada',
   quickCard : {
     lastPosts : 'Blog - Ultimos Posts'
-  }
+  },
+  form : {
+    showInMenu:'Mostrar en menu',
+    featured : 'Destacado',
+    sortOrder : 'Orden de prioridad',
+    availableDate : 'Disponible desde'
+
+  },
 }

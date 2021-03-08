@@ -146,6 +146,7 @@
             },
           },
           formRight: {
+
             masterRecord: {
               value: '0',
               type: 'select',
@@ -216,6 +217,22 @@
                 ]
               },
             },
+
+            sortOrder: {
+              value: '0',
+              type: 'input',
+              props: {
+                label: this.$tr('qblog.layout.form.sortOrder'),
+                type: 'number'
+              }
+            },
+            dateAvailable: {
+              value: '',
+              type: 'date',
+              props: {
+                label: this.$tr('qblog.layout.form.availableDate'),
+              }
+            },
             tags: {
               value: [],
               type: 'select',
@@ -227,6 +244,15 @@
                 hideDropdownIcon: true,
                 inputDebounce: "0",
                 newValueMode: "add-unique"
+              }
+            },
+            featured: {
+              value: '0',
+              type: 'checkbox',
+              props: {
+                label: this.$tr('qblog.layout.form.featured'),
+                trueValue: '1',
+                falseValue: '0',
               }
             },
             mediasSingle: {
