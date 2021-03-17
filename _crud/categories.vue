@@ -97,6 +97,21 @@
             },
           },
           formRight: {
+            status: {
+              value: '1',
+              type: 'select',
+              isTranslatable: false,
+              props: {
+                label: `${this.$tr('ui.form.status')}*`,
+                options: [
+                  {label: this.$tr('ui.label.enabled'), value: '1'},
+                  {label: this.$tr('ui.label.disabled'), value: '0'}
+                ],
+                rules: [
+                  val => !!val || this.$tr('ui.message.fieldRequired')
+                ],
+              }
+            },
             masterRecord : {
               value: 0,
               isFakeField : true,
@@ -122,6 +137,30 @@
                 apiRoute: 'apiRoutes.qblog.categories',
                 select: {label: 'title', id: 'id'},
                 requestParams: {include: 'parent'}
+              }
+            },
+            showMenu: {
+              value: false,
+              type: 'checkbox',
+              props: {
+                label: this.$tr('qblog.layout.form.showInMenu'),
+              }
+            },
+            featured: {
+              value: '0',
+              type: 'checkbox',
+              props: {
+                label: this.$tr('qblog.layout.form.featured'),
+                trueValue: '1',
+                falseValue: '0',
+              }
+            },
+            sortOrder: {
+              value: '0',
+              type: 'input',
+              props: {
+                label: this.$tr('qblog.layout.form.sortOrder'),
+                type: 'number'
               }
             },
             mediasSingle: {
