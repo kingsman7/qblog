@@ -15,7 +15,7 @@
           crudId: this.crudId,
           apiRoute: 'apiRoutes.qblog.categories',
           permission: 'iblog.categories',
-          extraFormFields: 'crud-fields.Iblog.categories',
+          extraFormFields: 'Iblog.crud-fields.categories',
           create: {
             title: this.$tr('qblog.layout.newCategory'),
           },
