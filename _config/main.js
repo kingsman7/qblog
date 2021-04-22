@@ -1,4 +1,9 @@
 export default {
+  //Entities
+  entityNames: {
+    category: 'category',
+    post: 'post',
+  },
   //Quick Cards
   quickCards: [
     {

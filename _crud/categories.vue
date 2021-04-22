@@ -13,6 +13,7 @@
       crudData() {
         return {
           crudId: this.crudId,
+          entityName: config("main.qblog.entityNames.category"),
           apiRoute: 'apiRoutes.qblog.categories',
           permission: 'iblog.categories',
           extraFormFields: 'Iblog.crud-fields.categories',
