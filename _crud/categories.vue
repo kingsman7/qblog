@@ -16,7 +16,7 @@
           entityName: config("main.qblog.entityNames.category"),
           apiRoute: 'apiRoutes.qblog.categories',
           permission: 'iblog.categories',
-          extraFormFields: 'Iblog.crud-fields.categories',
+          extraFormFields: 'iblog.crud-fields.categories',
           create: {
             title: this.$tr('qblog.layout.newCategory'),
           },

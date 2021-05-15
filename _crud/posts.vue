@@ -13,7 +13,7 @@
           entityName: config("main.qblog.entityNames.post"),
           apiRoute: 'apiRoutes.qblog.posts',
           permission: 'iblog.posts',
-          extraFormFields: 'Iblog.crud-fields.posts',
+          extraFormFields: 'iblog.crud-fields.posts',
           create: {
             title: this.$tr('qblog.layout.newPost'),
           },
