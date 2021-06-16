@@ -139,7 +139,7 @@
               value: {},
               type: 'media',
               props: {
-                label: this.$tr('ui.form.gallery') + 'tt',
+                label: this.$tr('ui.form.gallery'),
                 zone: 'gallery',
                 entity: "Modules\\Iblog\\Entities\\Post",
                 entityId: null
