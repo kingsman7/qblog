@@ -127,7 +127,7 @@ export default {
           },
           parentId: {
             value: 0,
-            type: 'select',
+            type: 'treeSelect',
             props: {
               label: this.$tr('ui.form.parent'),
               options: [
@@ -137,7 +137,7 @@ export default {
             loadOptions: {
               apiRoute: 'apiRoutes.qblog.categories',
               select: {label: 'title', id: 'id'},
-              requestParams: {include: 'parent'}
+              requestParams: {include: 'parent', filter: {status: 1}}
             }
           },
           showMenu: {
