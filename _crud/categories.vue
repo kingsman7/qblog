@@ -35,7 +35,20 @@ export default {
             },
             {name: 'actions', label: this.$tr('ui.form.actions'), align: 'left'},
           ],
-          requestParams: {include: 'parent'}
+          requestParams: {include: 'parent'},
+          filters: {
+            parentId: {
+              value: null,
+              type: 'treeSelect',
+              props: {
+                label: this.$tr('ui.form.parent')
+              },
+              loadOptions: {
+                apiRoute: 'apiRoutes.qblog.categories',
+                requestParams: {filter: {status: 1}}
+              }
+            },
+          }
         },
         update: {
           title: this.$tr('qblog.layout.updateCategory'),
