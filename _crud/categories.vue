@@ -25,6 +25,7 @@ export default {
             {name: 'id', label: this.$tr('ui.form.id'), field: 'id', style: 'width: 50px'},
             {name: 'name', label: this.$tr('ui.form.title'), field: 'title', align: 'rigth'},
             {name: 'slug', label: this.$tr('ui.form.slug'), field: 'slug', align: 'left'},
+            {name: 'status', label: this.$tr('ui.form.status'), field: 'status', align: 'left'},
             {
               name: 'parent', label: this.$tr('ui.form.parent'), field: 'parent', align: 'left',
               format: val => val ? (val.title ? val.title : '-') : '-'
