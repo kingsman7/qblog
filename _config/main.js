@@ -1,4 +1,5 @@
 export default {
+  moduleName: 'iblog',
   //Entities
   entityNames: {
     category: 'category',
