@@ -15,39 +15,39 @@ export default {
         permission: 'iblog.posts',
         extraFormFields: 'iblog.crud-fields.posts',
         create: {
-          title: this.$tr('qblog.layout.newPost'),
+          title: this.$tr('iblog.cms.newPost'),
         },
         read: {
           columns: [
             {
-              name: 'id', label: this.$tr('ui.form.id'),
+              name: 'id', label: this.$tr('isite.cms.form.id'),
               field: 'id',
               sortable: true,
             },
             {
-              name: 'title', label: this.$tr('ui.form.title'),
+              name: 'title', label: this.$tr('isite.cms.form.title'),
               field: 'title',
               align: 'left',
               sortable: true,
             },
             {
-              name: 'slug', label: this.$tr('ui.form.slug'),
+              name: 'slug', label: this.$tr('isite.cms.form.slug'),
               field: 'slug',
               align: 'left',
               sortable: true,
             },
             {
-              name: 'category', label: this.$tr('ui.form.category'),
+              name: 'category', label: this.$tr('isite.cms.form.category'),
               align: 'left', field: 'category', sortable: true,
               format: val => ((val && val.title) ? val.title : '-')
             },
             {
-              name: 'createdAt', label: this.$tr('ui.form.createdAt'), field: 'createdAt',
+              name: 'createdAt', label: this.$tr('isite.cms.form.createdAt'), field: 'createdAt',
               format: val => val ? this.$trd(val) : '-',
               align: 'left', sortable: true
             },
             {
-              name: 'actions', label: this.$tr('ui.form.actions'), align: 'center'
+              name: 'actions', label: this.$tr('isite.cms.form.actions'), align: 'center'
             },
           ],
           requestParams: {include: 'category'},
@@ -56,7 +56,7 @@ export default {
               value: null,
               type: 'treeSelect',
               props: {
-                label: this.$tr('ui.label.category')
+                label: this.$tr('isite.cms.label.category')
               },
               loadOptions: {
                 apiRoute: 'apiRoutes.qblog.categories'
@@ -65,7 +65,7 @@ export default {
           }
         },
         update: {
-          title: this.$tr('qblog.layout.updatePost'),
+          title: this.$tr('iblog.cms.updatePost'),
           requestParams: {include: 'categories'}
         },
         delete: true,
@@ -76,9 +76,9 @@ export default {
             type: 'input',
             isTranslatable: true,
             props: {
-              label: `${this.$tr('ui.form.title')}*`,
+              label: `${this.$tr('isite.cms.form.title')}*`,
               rules: [
-                val => !!val || this.$tr('ui.message.fieldRequired')
+                val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],
             },
           },
@@ -87,9 +87,9 @@ export default {
             type: 'input',
             isTranslatable: true,
             props: {
-              label: `${this.$tr('ui.form.slug')}*`,
+              label: `${this.$tr('isite.cms.form.slug')}*`,
               rules: [
-                val => !!val || this.$tr('ui.message.fieldRequired')
+                val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],
             },
           },
@@ -98,11 +98,11 @@ export default {
             type: 'input',
             isTranslatable: true,
             props: {
-              label: `${this.$tr('ui.form.summary')}*`,
+              label: `${this.$tr('isite.cms.form.summary')}*`,
               type: 'textarea',
               rows: "3",
               rules: [
-                val => !!val || this.$tr('ui.message.fieldRequired')
+                val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],
             },
           },
@@ -111,9 +111,9 @@ export default {
             type: 'html',
             isTranslatable: true,
             props: {
-              label: `${this.$tr('ui.form.description')}*`,
+              label: `${this.$tr('isite.cms.form.description')}*`,
               rules: [
-                val => !!val || this.$tr('ui.message.fieldRequired')
+                val => !!val || this.$tr('isite.cms.message.fieldRequired')
               ],
             }
           },
@@ -122,7 +122,7 @@ export default {
             type: 'input',
             isTranslatable: true,
             props: {
-              label: this.$tr('ui.form.metaTitle'),
+              label: this.$tr('isite.cms.form.metaTitle'),
             }
           },
           metaDescription: {
@@ -130,7 +130,7 @@ export default {
             type: 'input',
             isTranslatable: true,
             props: {
-              label: this.$tr('ui.form.metaDescription'),
+              label: this.$tr('isite.cms.form.metaDescription'),
               type: 'textarea',
               rows: 2,
             }
@@ -139,7 +139,7 @@ export default {
             value: {},
             type: 'media',
             props: {
-              label: this.$tr('ui.form.gallery'),
+              label: this.$tr('isite.cms.form.gallery'),
               zone: 'gallery',
               entity: "Modules\\Iblog\\Entities\\Post",
               entityId: null
@@ -152,10 +152,10 @@ export default {
             type: 'select',
             isFakeField: true,
             props: {
-              label: this.$tr('ui.form.masterRecord'),
+              label: this.$tr('isite.cms.form.masterRecord'),
               options: [
-                {label: this.$tr('ui.label.yes'), value: '1'},
-                {label: this.$tr('ui.label.no'), value: '0'},
+                {label: this.$tr('isite.cms.label.yes'), value: '1'},
+                {label: this.$tr('isite.cms.label.no'), value: '0'},
               ]
             }
           },
@@ -166,9 +166,9 @@ export default {
               type: 'select',
               crudData: import('@imagina/quser/_crud/users'),
               crudProps: {
-                label: `${this.$tr('ui.form.author')}*`,
+                label: `${this.$tr('isite.cms.form.author')}*`,
                 rules: [
-                  val => !!val || this.$tr('ui.message.fieldRequired')
+                  val => !!val || this.$tr('isite.cms.message.fieldRequired')
                 ],
               },
               config: {
@@ -189,9 +189,9 @@ export default {
                 }
               },
               crudProps: {
-                label: `${this.$tr('ui.form.category')}*`,
+                label: `${this.$tr('isite.cms.form.category')}*`,
                 rules: [
-                  val => !!val || this.$tr('ui.message.fieldRequired')
+                  val => !!val || this.$tr('isite.cms.message.fieldRequired')
                 ],
               },
             },
@@ -208,7 +208,7 @@ export default {
                 }
               },
               crudProps: {
-                label: this.$trp('ui.form.category'),
+                label: this.$trp('isite.cms.form.category'),
                 multiple: true,
                 useChips: true
               },
@@ -218,12 +218,12 @@ export default {
             value: '2',
             type: 'select',
             props: {
-              label: this.$tr('ui.form.status'),
+              label: this.$tr('isite.cms.form.status'),
               options: [
-                {label: this.$tr('ui.form.publish'), value: '2'},
-                {label: this.$tr('ui.form.noPublish'), value: '3'},
-                {label: this.$tr('ui.form.draft'), value: '0'},
-                {label: this.$tr('ui.form.pending'), value: '1'}
+                {label: this.$tr('isite.cms.form.publish'), value: '2'},
+                {label: this.$tr('isite.cms.form.noPublish'), value: '3'},
+                {label: this.$tr('isite.cms.form.draft'), value: '0'},
+                {label: this.$tr('isite.cms.form.pending'), value: '1'}
               ]
             },
           },
@@ -232,7 +232,7 @@ export default {
             value: '0',
             type: 'input',
             props: {
-              label: this.$tr('qblog.layout.form.sortOrder'),
+              label: this.$tr('iblog.cms.form.sortOrder'),
               type: 'number'
             }
           },
@@ -240,14 +240,14 @@ export default {
             value: '',
             type: 'date',
             props: {
-              label: this.$tr('qblog.layout.form.availableDate'),
+              label: this.$tr('iblog.cms.form.availableDate'),
             }
           },
           tags: {
             value: [],
             type: 'select',
             props: {
-              label: this.$trp('ui.form.tag'),
+              label: this.$trp('isite.cms.form.tag'),
               useInput: true,
               useChips: true,
               multiple: true,
@@ -260,7 +260,7 @@ export default {
             value: '0',
             type: 'checkbox',
             props: {
-              label: this.$tr('qblog.layout.form.featured'),
+              label: this.$tr('iblog.cms.form.featured'),
               trueValue: '1',
               falseValue: '0',
             }
@@ -269,7 +269,7 @@ export default {
             value: {},
             type: 'media',
             props: {
-              label: this.$tr('ui.form.image'),
+              label: this.$tr('isite.cms.form.image'),
               zone: 'mainimage',
               entity: "Modules\\Iblog\\Entities\\Post",
               entityId: null

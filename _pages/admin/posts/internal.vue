@@ -42,7 +42,7 @@
           <!--Header-->
           <q-toolbar class="bg-primary text-white">
             <q-toolbar-title>
-              {{ `${$tr('qblog.layout.post')}: ${modal.post.id}` }}
+              {{ `${$tr('iblog.cms.post')}: ${modal.post.id}` }}
             </q-toolbar-title>
             <q-btn flat v-close-popup icon="fas fa-times"/>
           </q-toolbar>
@@ -120,7 +120,7 @@ export default {
             value: null,
             type: 'treeSelect',
             props: {
-              label: this.$tr('ui.label.category')
+              label: this.$tr('isite.cms.label.category')
             },
             loadOptions: {
               apiRoute: 'apiRoutes.qblog.categories'

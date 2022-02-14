@@ -23,7 +23,7 @@ export default {
     quickCardParams() {
       return {
         type : 'list-h',
-        title: this.$tr('qblog.layout.quickCard.lastPosts'),
+        title: this.$tr('iblog.cms.quickCard.lastPosts'),
         icon: 'fas fa-newspaper',
         apiRoute: 'apiRoutes.qblog.posts',
         requestParams: {

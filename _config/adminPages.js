@@ -8,7 +8,7 @@ export default {
     crud : import('@imagina/qblog/_crud/posts'),
     page: () => import('@imagina/qcrud/_pages/admin/crudPage'),
     layout: () => import('@imagina/qsite/_layouts/master.vue'),
-    title: 'qblog.sidebar.adminPosts',
+    title: 'iblog.cms.sidebar.adminPosts',
     icon: 'fas fa-newspaper',
     subHeader: {
       refresh: true,
@@ -23,7 +23,7 @@ export default {
     crud : import('@imagina/qblog/_crud/categories'),
     page: () => import('@imagina/qcrud/_pages/admin/crudPage'),
     layout: () => import('@imagina/qsite/_layouts/master.vue'),
-    title: 'qblog.sidebar.adminCategories',
+    title: 'iblog.cms.sidebar.adminCategories',
     icon: 'fas fa-layer-group',
     subHeader: {
       refresh: true,
@@ -37,7 +37,7 @@ export default {
     name: 'qblog.admin.posts.internal',
     page: () => import('@imagina/qblog/_pages/admin/posts/internal'),
     layout: () => import('@imagina/qsite/_layouts/master.vue'),
-    title: 'qblog.sidebar.adminPostsInternal',
+    title: 'iblog.cms.sidebar.adminPostsInternal',
     icon: 'far fa-newspaper',
     subHeader: {
       refresh: true,
