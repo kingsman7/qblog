@@ -159,6 +159,8 @@ export default {
             type: 'checkbox',
             props: {
               label: this.$tr('iblog.cms.form.showInMenu'),
+              trueValue: '1',
+              falseValue: '0',
             }
           },
           featured: {
