@@ -1,0 +1,432 @@
+{
+  "crudId": "iblog-crud-categories",
+  "entityName": "category",
+  "apiRoute": "/iblog/v1/categories",
+  "permission": "iblog.categories",
+  "extraFormFields": "iblog.crud-fields.categories",
+  "create": {
+     "title": "iblog.cms.newCategory"
+  },
+  "read": {
+    "columns": [
+      {
+        "name": "id",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.id"
+        },
+        "field": "id",
+        "style": "width: 50px"
+      },
+      {
+        "name": "name",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.name"
+        },
+        "field": "name",
+        "align": "rigth"
+      },
+      {
+        "name": "slug",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.slug"
+        },
+        "field": "slug",
+        "align": "left"
+      },
+      {
+        "name": "status",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.status"
+        },
+        "field": "status",
+        "style": "width: 50px"
+      },
+      {
+        "name": "parent",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.title"
+        },
+        "field": "parent",
+        "align": "left",
+        "format": {
+          "type": "str",
+          "child": ["title"]
+        }
+      },
+      {
+        "name": "create_at",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.create_at"
+        },
+        "field": "create_at",
+        "align": "left",
+        "format": {
+          "isTranslatable": {
+            "type": "singular"
+          }
+        }
+      },
+      {
+        "name": "actions",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.actions"
+        },
+        "align": "left"
+      }
+    ],
+    "requestParams": {
+       "include": "parent"
+    },
+    "filters": {
+      "filter": {
+        "name":"parentId",
+        "value": null,
+        "type": "treeSelect",
+        "props": {
+          "label": {
+            "isTranslatable": {
+              "type": "singular",
+              "value": "isite.cms.form.parent"
+            }
+          }
+        },
+        "loadOptions": {
+          "apiRoute": "/iblog/v1/categories",
+          "requestParams": {
+            "filter": {
+              "status": 1
+            }
+          }
+        }
+      }
+    }
+  },
+  "update": {
+    "title": {
+      "isTranslatable": {
+        "type": "singular",
+        "value": "iblog.cms.updateCategory"
+      }
+    },
+    "requestParams": {
+      "include": "parent"
+    }
+  },
+  "delete": true,
+  "formLeft": [
+    {
+      "fieldName": "id",
+      "id":{
+        "value": ""
+      },
+      "userId": {
+        "source": "store",
+        "value": ""
+      },
+      "title": {
+        "value": "",
+        "type": "input",
+        "isTranslatable": true,
+        "props": {
+          "required": true,
+          "label": {
+            "isTranslatable": {
+              "type":"singular",
+              "value": "isite.cms.form.title"
+            }
+          },
+          "rules": [
+            {
+              "isTranslatable": {
+                "type":"singular",
+                "value":"isite.cms.message.fieldRequired"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fieldName": "slug",
+      "value": "",
+      "type": "input",
+      "isTranslatable": true,
+      "props": {
+        "required": true,
+        "label": {
+          "isTranslatable": {
+            "type":"singular",
+            "value": "isite.cms.form.slug"
+          }
+        },
+        "rules": [
+          {
+            "isTranslatable": {
+              "type":"singular",
+              "value":"isite.cms.message.fieldRequired"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fieldName": "description",
+      "value": "",
+      "type": "html",
+      "isTranslatable": true,
+      "props": {
+        "required": true,
+        "label": {
+          "isTranslatable": {
+            "type":"singular",
+            "value": "isite.cms.form.description"
+          }
+        },
+        "rules": [
+          {
+            "isTranslatable": {
+              "type":"singular",
+              "value":"isite.cms.message.fieldRequired"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fieldName": "metaTitle",
+      "value": "",
+      "type": "input",
+      "isTranslatable": true,
+      "props": {
+        "label": {
+          "isTranslatable": {
+            "type":"singular",
+            "value": "isite.cms.form.metaTitle"
+          }
+        }
+      }
+    },
+    {
+      "fieldName": "metaDescription",
+      "value": "",
+      "type": "input",
+      "isTranslatable": true,
+      "props": {
+        "label": {
+          "isTranslatable": {
+            "type":"singular",
+            "value": "isite.cms.form.title"
+          }
+        },
+        "type": "textarea",
+        "rows": 3
+      }
+    }
+  ],
+  "formRigth": [
+    {
+      "fieldName": "status",
+      "value": "1",
+      "type": "select",
+      "isTranslatable": true,
+      "props": {
+        "required": true,
+        "label": {
+          "isTranslatable": {
+            "type": "singular",
+            "value": "isite.cms.form.status"
+          }
+        },  
+        "options": [
+            {
+              "label": {
+                "type": "singular",
+                "value": "isite.cms.label.enabled"
+              },
+              "value":"1"
+            },
+            {
+              "label": {
+                "type": "singular",
+                "value": "isite.cms.label.disabled"
+              },
+              "value":"0"
+            }
+        ],
+        "rules": [
+            {
+              "isTranslatable": {
+                "type":"singular",
+                "value":"isite.cms.message.fieldRequired"
+              }
+            }
+        ]
+      }
+    },
+    {
+      "fieldName": "masterRecord",
+      "value": 0,
+      "isFakeField": true,
+      "type": "select",
+      "props": {
+        "label": {
+          "isTranslatable": {
+            "type":"singular",
+            "value":"isite.cms.form.masterRecord"
+          }
+        },  
+        "options": [
+          {
+            "label": {
+              "type": "singular",
+              "value": "isite.cms.label.yes"
+            },
+            "value": 1
+          },
+          {
+            "label": {
+              "type": "singular",
+              "value": "isite.cms.label.no"
+            },
+            "value": 0
+          }
+        ]
+      }
+    },
+    {
+      "fieldName": "parentId",
+      "value": 0,
+      "type": "treeSelect",
+      "props": {
+        "label": {
+          "isTranslatable": {
+            "type":"singular",
+            "value":"isite.cms.form.parent"
+          }
+        },
+        "options": [
+          {
+            "label": {
+              "isTranslatable":{
+                "type":"singular",
+                "value":"isite.cms.label.disabled"
+              }
+            },
+            "value": 0
+          }
+        ]
+      },
+      "loadOptions": {
+        "apiRoute": "apiRoutes.qblog.categories",
+        "select": {
+          "label": "title", 
+          "id": "id"
+        },
+        "requestParams": {
+          "include": "parent",
+          "filter": {
+            "status": 1
+          }
+        }
+      }
+    },
+    {
+      "fieldName": "showMenu",
+      "value": false,
+      "type": "checkbox",
+      "props": {
+        "label": {
+          "isTranslatable": {
+            "type":"singular",
+            "value": "iblog.cms.form.showInMenu"
+          }
+        }
+      }
+    },
+    {
+      "fieldName": "featured",
+      "value": "0",
+      "type": "checkbox",
+      "props": {
+        "label": {
+          "isTranslatable": {
+            "type":"singular",
+            "value": "iblog.cms.form.featured"
+          }
+        },
+        "trueValue": "1",
+        "falseValue": "0"
+      }
+    },
+    {
+      "fieldName": "internal",
+      "value": "0",
+      "type": "checkbox",
+      "props": {
+        "label": {
+          "isTranslatable": {
+            "type":"singular",
+            "value": "isite.cms.label.internal"
+          }
+        },
+        "trueValue": "1",
+        "falseValue": "0"
+      }
+    },
+    {
+      "fieldName": "sortOrder",
+      "value": "0",
+      "type": "input",
+      "props": {
+        "label": {
+          "isTranslatable": {
+            "type":"singular",
+            "value": "iblog.cms.form.sortOrder"
+          }
+        },
+        "type":"number"
+      }
+    },
+    {
+      "fieldName": "mediasSingle",
+      "name": "mediasSingle",
+      "value": {},
+      "type": "media",
+      "props": {
+        "label": {
+          "isTranslatable": {
+            "type":"singular",
+            "vale":"isite.cms.form.firstImage"
+          }
+        },  
+        "zone": "mainimage",
+        "entity": "Modules\\Iblog\\Entities\\Category",
+        "entityId": null
+      }
+    },
+    {
+      "fieldName": "mediasSingle2",
+      "name": "mediasSingle",
+      "value": {},
+      "type": "media",
+      "props": {
+        "label": {
+          "isTranslatable": {
+            "type":"singular",
+            "vale":"isite.cms.form.secondaryImage"
+          }
+        },  
+        "zone": "secondaryImage",
+        "entity": "Modules\\Iblog\\Entities\\Category",
+        "entityId": null
+      }
+    }
+  ]
+}

@@ -1,6 +1,13 @@
-<template></template>
+<template>
+  <config-crud ref="configCrud" />
+</template>
 <script>
+import res from '@imagina/qblog/_crud/category.json'
+import configCrud from "@imagina/qcrud/_config/CrudConfig"
 export default {
+  components:{
+    configCrud
+  },
   data() {
     return {
       crudId: this.$uid()
@@ -9,7 +16,8 @@ export default {
   computed: {
     crudData() {
       return {
-        crudId: this.crudId,
+        ...this.$refs.configCrud.getData(res),
+        /*crudId: this.crudId,
         entityName: config("main.qblog.entityNames.post"),
         apiRoute: 'apiRoutes.qblog.posts',
         permission: 'iblog.posts',
@@ -68,7 +76,7 @@ export default {
           title: this.$tr('iblog.cms.updatePost'),
           requestParams: {include: 'categories'}
         },
-        delete: true,
+        delete: true,*/
         formLeft: {
           id: {value: ''},
           title: {

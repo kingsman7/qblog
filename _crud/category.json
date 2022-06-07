@@ -1,0 +1,122 @@
+{
+  "crudId": "iblog-crud-categories",
+  "entityName": "category",
+  "apiRoute": "/iblog/v1/categories",
+  "permission": "iblog.categories",
+  "extraFormFields": "iblog.crud-fields.categories",
+  "create": {
+     "title": "iblog.cms.newCategory"
+  },
+  "read": {
+    "columns": [
+      {
+        "name": "id",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.id"
+        },
+        "field": "id",
+        "style": "width: 50px"
+      },
+      {
+        "name": "name",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.title"
+        },
+        "field": "title",
+        "align": "rigth"
+      },
+      {
+        "name": "slug",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.slug"
+        },
+        "field": "slug",
+        "align": "left"
+      },
+      {
+        "name": "status",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.status"
+        },
+        "field": "status",
+        "style": "width: 50px",
+        "align": "left"
+      },
+      {
+        "name": "parent",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.title"
+        },
+        "field": "parent",
+        "align": "left",
+        "format": {
+          "type": "str",
+          "child": ["title"]
+        }
+      },
+      {
+        "name": "create_at",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.createdAt"
+        },
+        "field": "createdAt",
+        "align": "left",
+        "format": {
+          "type": "date"
+        }
+      },
+      {
+        "name": "actions",
+        "label": {
+          "isTranslatable": "singular",
+          "value": "isite.cms.form.actions"
+        },
+        "align": "left"
+      }
+    ],
+    "requestParams": {
+       "include": "parent"
+    },
+    "filters": [
+      {
+        "filterName": "parentId",
+        "value": null,
+        "type": "treeSelect",
+        "props": {
+          "label": {
+            "isTranslatable": {
+              "type": "singular",
+              "value": "isite.cms.form.parent"
+            }
+          }
+        },
+        "loadOptions": {
+          "apiRoute": "/iblog/v1/categories",
+          "requestParams": {
+            "filter": {
+              "status": 1
+            }
+          }
+        }
+      }
+    ]
+  },
+  "update": {
+    "title": {
+      "isTranslatable": {
+        "type": "singular",
+        "value": "iblog.cms.updateCategory"
+      }
+    },
+    "requestParams": {
+      "include": "parent"
+    }
+  },
+  "delete": true
+}

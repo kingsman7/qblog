@@ -1,18 +1,27 @@
-<template></template>
+<template>
+  <config-crud ref="configCrud" />
+</template>
 <script>
-//Component
-import crud from '@imagina/qcrud/_components/crud'
+import res from '@imagina/qblog/_crud/category.json'
+import configCrud from "@imagina/qcrud/_config/CrudConfig"
 
+import crud from '@imagina/qcrud/_components/crud'
+//Component
 export default {
+  name:"crudCategory",
+  components:{
+    configCrud
+  },
   data() {
     return {
-      crudId: this.$uid()
+      crudId: this.$uid(),
     }
   },
   computed: {
     crudData() {
       return {
-        crudId: this.crudId,
+        ...this.$refs.configCrud.getData(res),
+       /* crudId: this.crudId,
         entityName: config("main.qblog.entityNames.category"),
         apiRoute: 'apiRoutes.qblog.categories',
         permission: 'iblog.categories',
@@ -55,7 +64,7 @@ export default {
           title: this.$tr('iblog.cms.updateCategory'),
           requestParams: {include: 'parent'}
         },
-        delete: true,
+        delete: true,*/
         formLeft: {
           id: {value: ''},
           userId: {value: this.$store.state.quserAuth.userId},
